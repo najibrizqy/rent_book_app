@@ -1,14 +1,15 @@
 import React from 'react';
 import Sidebar from "react-sidebar";
 import Axios from 'axios'
-import {Navbar, Nav, NavDropdown, Form, FormControl, InputGroup, Container, Row, Button} from 'react-bootstrap';
+import {Navbar, Nav, Form, FormControl, InputGroup, Container, Row, Button} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faSearch, faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
 import logo from '../logo.png';
-import user from '../user.png';
+import userImage from '../user.png';
 import '../Css/style.css';
 import GenreDropdown from '../Components/GenreDropdown';
+import TimeDropdown from '../Components/TimeDropdown';
 import BooksList from '../Components/BooksList';
 import BookCarousel from '../Components/BookCarousel';
 import ModalAddBook from '../Components/ModalAddBook';
@@ -27,9 +28,10 @@ class Menu extends React.Component{
         this.state = {
           sidebarOpen: false,
           openModal: false,
-          ind: 2,
+          index: 2,
           properties: [],
-          property: {}
+          property: {},
+          userData: null
         };
         this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
       }
@@ -37,25 +39,24 @@ class Menu extends React.Component{
       componentDidMount = () => {
         Axios.get ('http://localhost:8016/books?sort=date_released&type=desc&limit=5')
           .then (res => {
-            console.log("DATA = ", res)
             this.setState ({properties: res.data.values, property: res.data.values[0]});
           })
           .catch (err => console.log ('err = ', err));
       };
 
       nextProperty = () => {
-        const newIndex = this.state.ind+1;
+        const newIndex = this.state.index+1;
         this.setState({
           property: this.state.properties[newIndex],
-          ind: newIndex
+          index: newIndex
         })
       }
 
       prevProperty = () => {
-        const newIndex = this.state.ind-1;
+        const newIndex = this.state.index-1;
         this.setState({
           property: this.state.properties[newIndex],
-          ind: newIndex
+          index: newIndex
         })
       }
      
@@ -70,18 +71,30 @@ class Menu extends React.Component{
       openModalAddBook(open){
         this.setState({openModal: open})
       }
+
+      componentWillMount(){
+        let getStorage = localStorage.getItem('UserData')
+        if(!getStorage)
+          window.location.replace("http://localhost:3000/")
+        
+        let parse = JSON.parse(getStorage);
+
+        this.setState({
+          userData: parse.dataUser
+        })
+      }
      
       render() {
         const {properties} = this.state;
-        const ind = this.state.ind;
-        // const [lgShow, setLgShow] = useState(false);
+        const index = this.state.index;
+        const user  = this.state.userData;
         const SideBarContent = (
             <div>
                 <span className="float-right" style={{fontSize: "3vh", marginRight:"2vh"}}>
                     <FontAwesomeIcon icon={faBars} onClick={() => this.onSetSidebarClose(false)}/>
                 </span>
-                <img src={user} alt="Not Found" className="userImage"/>
-                <center><h5>Najibullah Rizqy F</h5></center>
+                <img src={userImage} alt="Not Found" className="userImage"/>
+                <center><h5>{user.full_name}</h5></center>
                 
                 {/* Menu */}
                 <div style={{marginTop:"8vh", marginLeft:"4vh"}}>
@@ -109,9 +122,7 @@ class Menu extends React.Component{
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto" style={{marginLeft: '10px'}}>
                             <GenreDropdown />
-                            <NavDropdown title="All Time" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            </NavDropdown>
+                            <TimeDropdown />
                         </Nav>
                         <Form inline style={{marginRight: '270px'}}>
                             <InputGroup.Prepend>
@@ -126,19 +137,19 @@ class Menu extends React.Component{
                     </Navbar.Collapse>
                 </Navbar>
                 <Container style={{margin:'0px',maxWidth:"none"}}>
-                    <Row className={`container1 cards-slider active-slide-${ind}`}>
+                    <Row className={`container1 cards-slider active-slide-${index}`}>
                         <div className="cards-slider-wrapper" style={{
-                            'transform': `translateX(-${ind*(100/properties.length)}%)`
+                            'transform': `translateX(-${index*(100/properties.length)}%)`
                         }}>
                         {
-                            properties.map((bookData, index) => <BookCarousel key={bookData.id_book} property={bookData} index={index} />)
+                            properties.map((bookData, index) => <BookCarousel key={bookData.id_book} property={bookData} index={index}/>)
                         } 
                         </div>
                         <div className="btn-slide">
-                            <Button variant="light" className="slide-left" onClick={() => this.prevProperty()} disabled={ind === 0}>
+                            <Button variant="light" className="slide-left" onClick={() => this.prevProperty()} disabled={index === 0}>
                                 <FontAwesomeIcon icon={faAngleLeft}/>
                             </Button>
-                            <Button variant="light" className="slide-right" onClick={() => this.nextProperty()} disabled={ind === properties.length-1}>
+                            <Button variant="light" className="slide-right" onClick={() => this.nextProperty()} disabled={index === properties.length-1}>
                                 <FontAwesomeIcon icon={faAngleRight}/>
                             </Button>
                         </div>

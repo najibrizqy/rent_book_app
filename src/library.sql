@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 22, 2019 at 12:39 PM
+-- Generation Time: Aug 23, 2019 at 10:27 PM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.6
 
@@ -52,18 +52,19 @@ INSERT INTO `books` (`id_book`, `title`, `description`, `image`, `date_released`
 (6, 'Dia Adalah Kakakku', 'Dia Adalah Kakakku mengisahkan perjuangan seorang Laisa, yang berkorban luar biasa demi adik-adiknya dapat bersekolah meski tidak sedarah dengannya. Dengan kondisi fisik Laisa yang sempat membuat keempat adiknya khawatir akibat tak kunjung mendapatkan jodoh.', 'https://assets-a1.kompasiana.com/items/album/2018/12/30/depan-5c28f0566ddcae4e90440b6d.jpg', '2017-04-12', 4, 1, '2019-08-16 16:04:37', '2019-08-16 16:04:37'),
 (7, 'Kata', 'Kata, bercerita tentang Nugraha, Biru, dan Binta yang kian menjauh tanpa pernah menjelaskan perasaan satu sama lain. Mereka harus bicara dan mulai membuka hati, dan mengungkapkan isi hati agar persahabatan mereka sempurna kembali dari luka karena cinta.', 'https://www.gramedia.com/blog/content/images/2018/12/Kata-Rintik-Sedu-1.jpg', '2018-04-12', 4, 1, '2019-08-16 16:05:21', '2019-08-16 16:05:21'),
 (8, 'Garis Waktu: Sebuah Perjalanan Menghapus Luka', 'Setelah Konspirasi Alam Semesta, Karya kedua dari Fiersa Besari yang berisikan kumpulan cerita yang saling berkaitan ini merupakan memoar hati yang dirangkai indah lengkap dengan rima yang menarik oleh si penulis yang juga seorang penyanyi ini. Dibuat seolah bermonolog, membuat kisah di dalamnya memiliki daya tarik tersendiri.', 'https://i2.wp.com/bukubabad.com/wp-content/uploads/2018/12/Garis-Waktu-1.jpg?fit=600%2C600', '2019-04-12', 5, 1, '2019-08-16 16:06:21', '2019-08-16 16:06:21'),
-(9, 'Kids Zaman Neo', 'Sudah dapat bukunya? Pre-order buku Kids Zaman Neo sudah dimulai dari 1 hingga 5 November 2018 kemarin. Buku ini begitu seru untuk dibaca, karena Anodia Shula Neona Ayu atau Neona akan bercerita tentang awal mula dirinya terjun di dunia hiburan, passion, cita-cita, sampai menyanyi bersamanya. Dalam bukunya ini, Neona juga akan bercerita tentang beberapa rahasianya.', 'https://www.gramedia.com/blog/content/images/2018/12/Kids-Zaman-Neo.jpg', '2018-05-01', 1, 1, '2019-08-16 16:07:17', '2019-08-16 16:07:17'),
+(9, 'Kids Zaman Neo', 'Sudah dapat bukunya? Pre-order buku Kids Zaman Neo sudah dimulai dari 1 hingga 5 November 2018 kemarin. Buku ini begitu seru untuk dibaca, karena Anodia Shula Neona Ayu atau Neona akan bercerita tentang awal mula dirinya terjun di dunia hiburan, passion, cita-cita, sampai menyanyi bersamanya. Dalam bukunya ini, Neona juga akan bercerita tentang beberapa rahasianya.', 'https://www.gramedia.com/blog/content/images/2018/12/Kids-Zaman-Neo.jpg', '2016-05-01', 1, 1, '2019-08-16 16:07:17', '2019-08-16 16:07:17'),
 (10, 'Bumi Manusia', 'Naskah Bumi Manusia dibuat ketika Pram diasingkan dan dipenjara di Pulau Buru. Naskah ini telah melewati masa-masa buruk bersama Pram mulai disembunyikan, dikubur, disita, hingga ditulis kembali. Kini, buku ini dielu-elukan sebagai karya sastra Indonesia terbesar dan mendapatkan 12 penghargaan internasional.', 'https://www.gramedia.com/blog/content/images/2018/12/Bumi-Manusia.jpg', '2017-05-05', 6, 1, '2019-08-16 16:12:30', '2019-08-16 16:12:30'),
 (11, 'Berhenti di Kamu', 'Berawal dari cuitan di Twitter tentang jatuh bangun kisah cintanya, kini Gia Pratama yang berprofesi sebagai dokter mencurahkan kisahnya itu ke dalam sebuah buku yang diberi judul #Berhentidikamu.', 'https://www.gramedia.com/blog/content/images/2018/12/berhentidikamu.jpg', '2018-07-23', 4, 1, '2019-08-16 16:13:18', '2019-08-16 16:13:18'),
-(12, 'Nanti Kita Cerita Tentang Hari Ini', 'Novel Nanti Kita Cerita Tentang Hari Ini, atau yang lebih banyak dikenal dengan NKCTHI ternyata masih berada di posisi pertama sebagai novel Indonesia best seller November 2018 di Gramedia.com.', 'https://www.gramedia.com/blog/content/images/2018/12/berhentidikamu.jpg', '2018-08-10', 6, 1, '2019-08-16 16:14:16', '2019-08-16 16:14:16'),
-(13, 'ANAK SEMUA BANGSA', 'Lanjutan dari Bumi Manusia, novel Anak Semua Bangsa masih bercerita tentang Minke tapi lebih menceritakan tentang kondisi negara Indonesia di tahun 1898-1918. Semasa penjajahan Hindia Belanda, rakyat Indonesia mengalami penderitaan. Mereka ditindas, diteror, dan dipaksa untuk memberikan tanahnya kepada bangsa Belanda.', 'https://s3-ap-southeast-1.amazonaws.com/asset1.gotomalls.com/uploads/media/images/article/M3z42Nt5IR', '2015-08-10', 7, 1, '2019-08-17 05:47:23', '2019-08-17 05:47:23'),
-(14, 'Ronggeng Dukuh Paruk', 'Lanjutan dari Bumi Manusia, novel Anak Semua Bangsa masih bercerita tentang Minke tapi lebih menceritakan tentang kondisi negara Indonesia di tahun 1898-1918. Semasa penjajahan Hindia Belanda, rakyat Indonesia mengalami penderitaan. Mereka ditindas, diteror, dan dipaksa untuk memberikan tanahnya kepada bangsa Belanda.', 'https://i1.wp.com/ecs7.tokopedia.net/img/cache/700/jpg.jpg', '2016-08-10', 6, 1, '2019-08-17 05:49:13', '2019-08-17 05:49:13'),
+(12, 'One Punch Man', 'Botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak ', 'https://static0.srcdn.com/wordpress/wp-content/uploads/2019/08/One-Punch-Man-Road-to-Hero-Key-Art.jpg', '2018-08-10', 3, 1, '2019-08-16 16:14:16', '2019-08-16 16:14:16'),
+(13, 'ANAK SEMUA BANGSA', 'Lanjutan dari Bumi Manusia, novel Anak Semua Bangsa masih bercerita tentang Minke tapi lebih menceritakan tentang kondisi negara Indonesia di tahun 1898-1918. Semasa penjajahan Hindia Belanda, rakyat Indonesia mengalami penderitaan. Mereka ditindas, diteror, dan dipaksa untuk memberikan tanahnya kepada bangsa Belanda.', 'http://1.bp.blogspot.com/-rFfqpW7igG8/T_Y2mVCiyxI/AAAAAAAAAbA/wSOjRFpVJc4/s1600/anak+semua+bangsa.jpg', '2015-08-10', 7, 1, '2019-08-17 05:47:23', '2019-08-17 05:47:23'),
+(14, 'Ronggeng Dukuh Paruk', 'Lanjutan dari Bumi Manusia, novel Anak Semua Bangsa masih bercerita tentang Minke tapi lebih menceritakan tentang kondisi negara Indonesia di tahun 1898-1918. Semasa penjajahan Hindia Belanda, rakyat Indonesia mengalami penderitaan. Mereka ditindas, diteror, dan dipaksa untuk memberikan tanahnya kepada bangsa Belanda.', 'https://scontent-cdg2-1.cdninstagram.com/vp/fe32b5d68524ea3b0c2b728932cc412d/5DBD0F14/t51.2885-15/e35/65272118_2129437803834218_1310656860483878727_n.jpg?_nc_ht=scontent-cdg2-1.cdninstagram.com&se=7&ig_cache_key=MjA3MTgzMzEwMDMzODE5ODk2MA%3D%3D.2', '2016-08-10', 6, 1, '2019-08-17 05:49:13', '2019-08-17 05:49:13'),
 (15, 'Negeri 5 Menara', 'Novel Negeri 5 Menara merupakan roman karya Ahmad Fuadi yang pertama diterbitkan pada 2009. Novel ini juga diangkat dalam film berjudul yang sama pada pada 2011 dengan seting tempat salah satunya di Pondok Gontor Ponorogo', 'https://i1.wp.com/bukubiruku.com/wp-content/uploads/2016/11/negeri-5-menara.jpg?fit=550%2C400&ssl=1', '2009-08-10', 2, 1, '2019-08-17 05:50:30', '2019-08-17 05:50:30'),
-(16, '5 CM', 'Menjadi buku terlaris di Gramedia Bookstore selama dua tahun berturut-turut, novel 5 Cm tentunya harus masuk dalam daftar novel Indonesia terbaik yang wajib dibaca. Novel yang ditulis oleh Donny Dhirgantoro ini menceritakan tentang kehidupan lima sahabat yang telah berteman selama tujuh tahun.', 'https://i1.wp.com/bukubiruku.com/wp-content/uploads/2016/11/negeri-5-menara.jpg?fit=550%2C400&ssl=1', '2010-08-10', 2, 1, '2019-08-17 05:51:13', '2019-08-17 05:51:13'),
-(17, 'Sang Pemimpi', 'Sang Pemimpi merupakan biku kedua dari tetralogi Laskar Pelangi, novel Sang Pemimpi menceritakan tentang hubungan persahabatan Ikal dan Arai serta kekuatan mimpi mereka untuk bisa menuntut ilmu di Perancis.', 'https://i0.wp.com/cdn.idntimes.com/content-images/community/2017/05/sang-pemimpi-7beaad45358cd775430', '2011-11-11', 2, 1, '2019-08-17 06:54:19', '2019-08-17 06:54:19'),
+(16, '5 CM', 'Menjadi buku terlaris di Gramedia Bookstore selama dua tahun berturut-turut, novel 5 Cm tentunya harus masuk dalam daftar novel Indonesia terbaik yang wajib dibaca. Novel yang ditulis oleh Donny Dhirgantoro ini menceritakan tentang kehidupan lima sahabat yang telah berteman selama tujuh tahun.', 'http://4.bp.blogspot.com/-eufkk6Oa-9U/VJMBf4FdG0I/AAAAAAAAABo/w7R8fVTsGVE/s1600/film-5-cm-5-sahabat-sutradara-rizal-mantovani.jpg', '2010-08-10', 2, 1, '2019-08-17 05:51:13', '2019-08-17 05:51:13'),
+(17, 'Sang Pemimpi', 'Sang Pemimpi merupakan biku kedua dari tetralogi Laskar Pelangi, novel Sang Pemimpi menceritakan tentang hubungan persahabatan Ikal dan Arai serta kekuatan mimpi mereka untuk bisa menuntut ilmu di Perancis.', 'https://ecs7.tokopedia.net/img/cache/700/product-1/2016/5/26/9514068/9514068_9568af77-32c3-42af-a2ac-fddd4b766f9a.jpg', '2011-11-11', 2, 1, '2019-08-17 06:54:19', '2019-08-17 06:54:19'),
 (18, 'Muhammad: Lelaki Penggenggam Hujan', 'Sebuah novel biografi berjudul Muhammad: Lelaki Penggenggam Hujan mengisahkan tentang kisah Nabi Muhammad SAW beserta para sahabatnya. Oleh Tasaro kamu akan dibawa untuk membayangkan kehidupan saat Rasulullah menyebarkan Islam.', 'https://i0.wp.com/4.bp.blogspot.com/-W_PqcHUBx1o/UVJZcXdb3qI/AAAAAAAAASo/NieFyNECqK4/s1600/muhammadS', '2012-11-11', 6, 1, '2019-08-17 06:55:33', '2019-08-17 06:55:33'),
-(19, 'Arus Balik', 'Novel Arus Balik merupakan sebuah buku sejarah yang mengisahkan tentang keadaan negara Indonesia pasca runtuhnya kerajaan Majapahit. Gaya bahasa yang digunakan oleh Pramoedya membuat kita akan mudah mengetahui pola pikir, kebudayaan, perjuangan masyarakat Nusantara saat itu.', 'https://i0.wp.com/4.bp.blogspot.com/-W_PqcHUBx1o/UVJZcXdb3qI/AAAAAAAAASo/NieFyNECqK4/s1600/muhammadS', '2013-08-11', 7, 1, '2019-08-17 06:56:33', '2019-08-19 06:21:04'),
-(20, 'Soul Land 2', 'Sebuah pulau dengan sihir keluar, dou-qi, seni bela diri, tapi memiliki roh esensi. Ini adalah benua tempur 10 000 tahun setelah pembentukan Tang Sect. Seorang pahlawan baru dan temannya berjalan tanah, baru \"Tujuh Monster dari Shrek\", akan mereka menjaga nama Tang Sekte? Atau akan runtuh karena sistem esensi baru?', 'https://wallpapercave.com/wp/wp4099483.jpg', '2018-02-01', 10, 1, NULL, NULL);
+(19, 'Arus Balik', 'Novel Arus Balik merupakan sebuah buku sejarah yang mengisahkan tentang keadaan negara Indonesia pasca runtuhnya kerajaan Majapahit. Gaya bahasa yang digunakan oleh Pramoedya membuat kita akan mudah mengetahui pola pikir, kebudayaan, perjuangan masyarakat Nusantara saat itu.', 'https://media.karousell.com/media/photos/products/2019/05/12/bapau_arus_balik_1557618492_0e3ba09f_progressive.jpg', '2013-08-11', 7, 1, '2019-08-17 06:56:33', '2019-08-19 06:21:04'),
+(20, 'Soul Land 2', 'Sebuah pulau dengan sihir keluar, dou-qi, seni bela diri, tapi memiliki roh esensi. Ini adalah benua tempur 10 000 tahun setelah pembentukan Tang Sect. Seorang pahlawan baru dan temannya berjalan tanah, baru \"Tujuh Monster dari Shrek\", akan mereka menjaga nama Tang Sekte? Atau akan runtuh karena sistem esensi baru?', 'https://wallpapercave.com/wp/wp4099483.jpg', '2018-02-01', 10, 1, NULL, NULL),
+(28, 'Boruto', 'Boruto: Naruto Next Generations is a Japanese manga series written by Uky? Kodachi and illustrated by Mikio Ikemoto. It was serialised monthly in Shueisha\'s sh?nen manga magazine Weekly Sh?nen Jump since May 2016 until it was transferred to Shueisha\'s monthly magazine V Jump in July 2019', 'https://dimwhp0w2rs83.cloudfront.net/2017/02/Serial-Anime-Boruto-2.jpg', '2019-08-24', 10, 1, '2019-08-24 01:38:07', '2019-08-24 01:38:07');
 
 -- --------------------------------------------------------
 
@@ -98,7 +99,7 @@ CREATE TABLE `genre` (
 
 INSERT INTO `genre` (`id_genre`, `name`) VALUES
 (1, 'Teenlit'),
-(2, 'Young-Adult'),
+(2, 'Shounen'),
 (3, 'Komedi'),
 (4, 'Romance'),
 (5, 'Adventure'),
@@ -167,6 +168,7 @@ DELIMITER ;
 CREATE TABLE `users` (
   `id_user` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
+  `full_name` varchar(50) NOT NULL,
   `email` varchar(30) NOT NULL,
   `password` varchar(100) NOT NULL,
   `level` varchar(20) NOT NULL,
@@ -178,8 +180,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id_user`, `username`, `email`, `password`, `level`, `created_at`, `updated_at`) VALUES
-(1, 'J-Blue', 'najibrizqy@gmail.com', '70fb3cd9ab6206b042ea5afea1d242eb83c3deec', 'admin', '2019-08-19 20:23:24', '2019-08-19 20:23:24');
+INSERT INTO `users` (`id_user`, `username`, `full_name`, `email`, `password`, `level`, `created_at`, `updated_at`) VALUES
+(1, 'J-Blue', 'Najibullah Rizqy F', 'najibrizqy@gmail.com', '70fb3cd9ab6206b042ea5afea1d242eb83c3deec', 'admin', '2019-08-19 20:23:24', '2019-08-19 20:23:24'),
+(2, 'blue', 'Saitangos', 'blue@gmail.com', '70fb3cd9ab6206b042ea5afea1d242eb83c3deec', 'user', '2019-08-23 23:25:21', '2019-08-23 23:25:21'),
+(3, 'ndagel', 'ndagel gaming', 'ndagel@gmail.com', 'fefab5ccd734a8ca4fc61c96a3360c1e6aaca15f', 'user', '2019-08-23 23:35:51', '2019-08-23 23:35:51');
 
 -- --------------------------------------------------------
 
@@ -236,7 +240,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `id_book` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_book` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `genre`
@@ -260,7 +264,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

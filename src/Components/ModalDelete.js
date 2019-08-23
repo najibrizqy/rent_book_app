@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import '../Css/style.css';
 import check from '../check.png';
 
-const ModalDelete = ({open, hide}) => {
+const ModalDelete = ({title, open, hide}) => {
     return(
         <Modal show={open} onHide={hide}>
             <Modal.Header className="modal-header" closeButton style={{borderBottom:"none"}}>
@@ -13,7 +13,7 @@ const ModalDelete = ({open, hide}) => {
             <Modal.Body>
                 <center>
                     <img src={check} alt="Not Found." width="120px" className="mb-3"/>
-                    <p>Data <b>Dilan 1990</b> berhasil dihapus!</p> 
+                    <p>Data <b>{title}</b> berhasil dihapus!</p> 
                 </center>
             </Modal.Body>
             <Modal.Footer style={{borderTop:"none"}}>

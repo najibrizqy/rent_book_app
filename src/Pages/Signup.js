@@ -1,4 +1,5 @@
 import React from "react";
+import Axios from "axios";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -13,7 +14,49 @@ import Card from "react-bootstrap/Card";
 import {Link} from 'react-router-dom';
 
 
-class Login extends React.Component{
+class Signup extends React.Component{
+    constructor(){
+        super()
+        this.state= {
+            formUser : {
+                username: '',
+                full_name: '',
+                email: '',
+                password: ''
+            }
+        }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(e){
+        let newFormUser = {...this.state.formUser}
+        const target = e.target
+        const name = target.name
+        const value = target.value
+        newFormUser[name] = value
+        this.setState({
+          formUser: newFormUser
+        })
+    }
+
+    handleSubmit(e){
+        Axios.post('http://localhost:8016/users/register', this.state.formUser)
+          .then(res => {
+            console.log(res)
+            if(res.data.status == 401){
+                alert("Data not valid!");
+            }else if(res.data.status == 403){
+                alert("Email already in use!");
+            }else{
+                alert("Register Success");
+                window.location.href="http://localhost:3000/login"
+            }
+          })
+          .catch(err => console.log(err))
+          e.preventDefault();
+    }
+
     render(){
         return(
             <Container className="Signup">
@@ -35,15 +78,13 @@ class Login extends React.Component{
                         <p className="term">
                             By signing up, you agree to Book's<br/><b style={{color:'black'}}>Terms and Conditions</b> & <b style={{color:'black'}}>Privacy Policy</b>
                         </p>
-                        <Form>
-                            <div className="formParent">
-
-                            </div>
+                        
+                        <Form onSubmit={this.handleSubmit}>
                             <Card className="form-username">
                                 <Card.Body style={{padding:'0'}}>
                                     <Form.Group controlId="formBasicUsername" style={{paddingLeft: '17px',paddingRight: '17px'}}>
                                         <Form.Label style={{fontSize: '14px',color: 'grey'}}>Username</Form.Label> 
-                                        <Form.Control type="text" className="form-input"/>
+                                        <Form.Control name="username" type="text" className="form-input" onChange={this.handleChange}/>
                                     </Form.Group>
                                 </Card.Body>
                             </Card>
@@ -51,7 +92,7 @@ class Login extends React.Component{
                                 <Card.Body style={{padding:'0'}}>
                                 <Form.Group controlId="formBasicFullName" style={{paddingLeft: '17px',paddingRight: '17px'}}>
                                         <Form.Label style={{fontSize: '14px',color: 'grey'}}>Full Name</Form.Label>
-                                        <Form.Control type="text" className="form-input"/>
+                                        <Form.Control name="full_name" type="text" className="form-input" onChange={this.handleChange}/>
                                     </Form.Group>
                                 </Card.Body>
                             </Card>
@@ -59,7 +100,7 @@ class Login extends React.Component{
                                 <Card.Body style={{padding:'0'}}>
                                 <Form.Group controlId="formBasicEmail" style={{paddingLeft: '17px',paddingRight: '17px'}}>
                                         <Form.Label style={{fontSize: '14px',color: 'grey'}}>Email</Form.Label>
-                                        <Form.Control type="email" className="form-input"/>
+                                        <Form.Control name="email" type="email" className="form-input" onChange={this.handleChange}/>
                                     </Form.Group>
                                 </Card.Body>
                             </Card>
@@ -67,18 +108,17 @@ class Login extends React.Component{
                                 <Card.Body style={{padding:'0'}}>
                                 <Form.Group controlId="formBasicPassword" style={{paddingLeft: '17px',paddingRight: '17px'}}>
                                         <Form.Label style={{fontSize: '14px',color: 'grey'}}>Password</Form.Label>
-                                        <Form.Control type="password" className="form-input"/>
+                                        <Form.Control name="password" type="password" className="form-input" onChange={this.handleChange}/>
                                     </Form.Group>
                                 </Card.Body>
                             </Card>
+                            <ButtonToolbar >
+                                <Button type="submit" variant="dark" className="btn-sg">Sign Up</Button>
+                                <Link to="login">
+                                    <Button variant="light" className="btn-login">Login</Button>
+                                </Link>
+                            </ButtonToolbar>
                         </Form>
-
-                        <ButtonToolbar >
-                            <Button variant="dark" className="btn-sg">Sign Up</Button>
-                            <Link to="login">
-                                <Button variant="light" className="btn-login">Login</Button>
-                            </Link>
-                        </ButtonToolbar>
 
                     </Col>
                 </Row>
@@ -87,4 +127,4 @@ class Login extends React.Component{
     }
 }
 
-export default Login;
+export default Signup;

@@ -90,7 +90,6 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
 }
 
 .image-header{
-    background-image: url("https://s3-alpha-sig.figma.com/img/0c53/ee2c/c00052790edb4a412728981b7e047740?Expires=1567382400&Signature=GA8pK4S8FfbIg3sTKSORuifRZeH4t5CgJKk728tF9y54grIC7UgGLUcWYCbinUb-rpQ3GtuoYnQnfRbZ9usaOZ5Zq6I84LBstrfdX9l678nL1q1vFIWMvpMxRCwLX1z-Wma3fBVEnVxhiDveATJus~mDyxpHVSgoczlYnJgUcw~cB-nsb4OeYPklMigLvKRq4a4rG1zJMGvXNg5IrNetKhCt3hy4yiUpiv24T634MRmG35muoaarGv2xBiLp0A0owaFxGj0QwxRz-hbZmJuL2k6i8tURqoQ5PPgRKVWs2HlLQ6HiQdw2twPxuWwjNdG61vx6FNdASGqAleYjFybxUA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
     height: 40vh;
     background-repeat:no-repeat;
     background-position: center;
