@@ -5,11 +5,11 @@ import {Link} from 'react-router-dom';
 
 import '../Css/style.css'
 
-const Carousel = ({property}) => {
+const Carousel = ({property, index}) => {
     const {id_book, title, genre, image} = property;
     return(
         <Link to='book_detail' style={link}>
-            <Card className="card-carousel wrap" id={`card-${id_book}`} style={{backgroundImage: `url(${image})`}}>
+            <Card className="card-carousel wrap" id={`card-${index}`} style={{backgroundImage: `url(${image})`}}>
                 <Card.Body></Card.Body>
                 <Card.Footer className="footer">
                     <h3 className="mb-2">{title}</h3>

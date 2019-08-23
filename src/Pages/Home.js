@@ -1,19 +1,10 @@
 import React from 'react';
 import Sidebar from "react-sidebar";
 import Axios from 'axios'
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
-import InputGroup from 'react-bootstrap/InputGroup';
+import {Navbar, Nav, NavDropdown, Form, FormControl, InputGroup, Container, Row, Button} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faSearch, faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Button from 'react-bootstrap/Button';
 
-import data from '../Data/data';
 import logo from '../logo.png';
 import user from '../user.png';
 import '../Css/style.css';
@@ -37,17 +28,17 @@ class Menu extends React.Component{
           sidebarOpen: false,
           openModal: false,
           ind: 2,
-          properties: data.values,
-          property: data.values[0]
+          properties: [],
+          property: {}
         };
-        // this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+        this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
       }
 
       componentDidMount = () => {
-        Axios.get ('localhost:8016/books?sort=date_released&type=desc&limit=5')
+        Axios.get ('http://localhost:8016/books?sort=date_released&type=desc&limit=5')
           .then (res => {
             console.log("DATA = ", res)
-            this.setState ({listGenre: res.data.values});
+            this.setState ({properties: res.data.values, property: res.data.values[0]});
           })
           .catch (err => console.log ('err = ', err));
       };
@@ -55,7 +46,7 @@ class Menu extends React.Component{
       nextProperty = () => {
         const newIndex = this.state.ind+1;
         this.setState({
-          property: data.values[newIndex],
+          property: this.state.properties[newIndex],
           ind: newIndex
         })
       }
@@ -63,7 +54,7 @@ class Menu extends React.Component{
       prevProperty = () => {
         const newIndex = this.state.ind-1;
         this.setState({
-          property: data.values[newIndex],
+          property: this.state.properties[newIndex],
           ind: newIndex
         })
       }
@@ -140,14 +131,14 @@ class Menu extends React.Component{
                             'transform': `translateX(-${ind*(100/properties.length)}%)`
                         }}>
                         {
-                            properties.map(bookData => <BookCarousel key={bookData.id_book} property={bookData} />)
+                            properties.map((bookData, index) => <BookCarousel key={bookData.id_book} property={bookData} index={index} />)
                         } 
                         </div>
                         <div className="btn-slide">
                             <Button variant="light" className="slide-left" onClick={() => this.prevProperty()} disabled={ind === 0}>
                                 <FontAwesomeIcon icon={faAngleLeft}/>
                             </Button>
-                            <Button variant="light" className="slide-right" onClick={() => this.nextProperty()} disabled={ind === data.values.length-1}>
+                            <Button variant="light" className="slide-right" onClick={() => this.nextProperty()} disabled={ind === properties.length-1}>
                                 <FontAwesomeIcon icon={faAngleRight}/>
                             </Button>
                         </div>
