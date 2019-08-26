@@ -6,20 +6,21 @@ font-weight: normal;
 src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('woff');
 }
 
+.box-search{
+    position: relative;
+}
+
 .btn-search{
     border-radius: unset;
-    border-top-right-radius: 1.25rem;
-    border-bottom-right-radius: 1.25rem;
-    border-left: none;
-    padding-left: 5px;
-    
+    border-radius:1.25rem;
+    padding-left: 50px;
+    width:400px; 
 }
 
 .btn-search:focus, .btn:active:focus, .btn.active:focus{
     outline: none;
     box-shadow: unset;
     border: 1px solid #ced4da;
-    border-left: none;
 }
 
 .userImage{
@@ -118,15 +119,10 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
 }
 
 .icon-search{
-    border-radius: unset;
-    background-color: white;
-    border-top-left-radius: 1.25rem;
-    border-bottom-left-radius: 1.25rem;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    padding-right: 5px;
-    color: grey;
-    padding-left: 29px;
+    position:absolute;
+    top:7px;
+    left:20px;
+    color:grey;
 }
 
 .loading{

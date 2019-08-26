@@ -1,9 +1,9 @@
 import React from 'react';
 import Sidebar from "react-sidebar";
 import Axios from 'axios'
-import {Navbar, Nav, Form, FormControl, InputGroup, Container, Row, Button} from 'react-bootstrap';
+import {Navbar, Nav, Container, Row, Button} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faSearch, faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
 import logo from '../logo.png';
 import userImage from '../user.png';
@@ -13,6 +13,7 @@ import TimeDropdown from '../Components/TimeDropdown';
 import BooksList from '../Components/BooksList';
 import BookCarousel from '../Components/BookCarousel';
 import ModalAddBook from '../Components/ModalAddBook';
+import BooksSearch from '../Components/BooksSearch';
 
 const stylingSideBar = {
     sidebar: { 
@@ -34,9 +35,11 @@ class Menu extends React.Component{
           userData: null
         };
         this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+        this.Logout = this.Logout.bind(this);
       }
 
       componentDidMount = () => {
+        //Carousel
         Axios.get ('http://localhost:8016/books?sort=date_released&type=desc&limit=5')
           .then (res => {
             this.setState ({properties: res.data.values, property: res.data.values[0]});
@@ -72,6 +75,11 @@ class Menu extends React.Component{
         this.setState({openModal: open})
       }
 
+      Logout(){
+        localStorage.removeItem('UserData')
+        window.location.reload()
+      }
+
       componentWillMount(){
         let getStorage = localStorage.getItem('UserData')
         if(!getStorage)
@@ -100,7 +108,8 @@ class Menu extends React.Component{
                 <div style={{marginTop:"8vh", marginLeft:"4vh"}}>
                     <h6><a href="javascript:void(0)" style={menu}>Explore</a></h6><br />
                     <h6><a href="javascript:void(0)" style={menu}>History</a></h6><br />
-                    <h6><a href="javascript:void(0)" style={menu} onClick={() => this.openModalAddBook(true)}>Add Book</a></h6>
+                    <h6><a href="javascript:void(0)" style={menu} onClick={() => this.openModalAddBook(true)}>Add Book</a></h6><br/>
+                    <h6><a href="javascript:void(0)" style={menu} onClick={this.Logout}>Log out</a></h6>
                 </div>
             </div>
         )
@@ -124,15 +133,8 @@ class Menu extends React.Component{
                             <GenreDropdown />
                             <TimeDropdown />
                         </Nav>
-                        <Form inline style={{marginRight: '270px'}}>
-                            <InputGroup.Prepend>
-                                <InputGroup.Text id="inputGroupPrepend" className="icon-search">
-                                    <FontAwesomeIcon icon={faSearch}/>
-                                </InputGroup.Text>
-                            </InputGroup.Prepend>
-                            <FormControl type="text" placeholder="Search book" className="mr-sm-2 btn-search"  style={{width:'350px'}} />
-                        </Form>
-                        <img src={logo} style={{width: '50px'}} alt="Not Found"/>
+                        <BooksSearch />
+                        <img src={logo} style={{width: '50px'}} alt="Not Found" className="ml-auto"/>
                         <b style={{fontSize: '30px', marginRight: '43px'}}>Library</b>
                     </Navbar.Collapse>
                 </Navbar>

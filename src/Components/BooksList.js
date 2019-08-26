@@ -35,7 +35,6 @@ class BooksList extends React.Component{
 
   render(){
     const book = this.state.data
-    const index = this.state.index
     return(
         <Row>
             <div className="list">

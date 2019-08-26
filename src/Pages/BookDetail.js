@@ -53,6 +53,12 @@ class BookDetail extends React.Component {
           .catch(err => console.log(err))
     }
 
+    componentWillMount(){
+        let getStorage = localStorage.getItem('UserData')
+        if(!getStorage)
+          window.location.replace("http://localhost:3000/")
+      }
+
     componentDidMount(){
         let id = this.props.match.params.id;
         Axios.get(`http://localhost:8016/books/${id}`)
