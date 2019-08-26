@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import Sidebar from "react-sidebar";
 import Axios from 'axios'
 import {Navbar, Nav, Container, Row, Button} from 'react-bootstrap';
@@ -14,6 +14,7 @@ import BooksList from '../Components/BooksList';
 import BookCarousel from '../Components/BookCarousel';
 import ModalAddBook from '../Components/ModalAddBook';
 import BooksSearch from '../Components/BooksSearch';
+import { async } from 'q';
 
 const stylingSideBar = {
     sidebar: { 
@@ -32,13 +33,31 @@ class Menu extends React.Component{
           index: 2,
           properties: [],
           property: {},
-          userData: null
+          userData: []
         };
         this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
         this.Logout = this.Logout.bind(this);
       }
 
       componentDidMount = () => {
+        //Get Token
+        let token = localStorage.getItem('token')
+        if(!token)
+          window.location.replace("http://localhost:3000/")
+
+        //Get User Data
+        Axios.get("http://localhost:8016/users/profile",{
+          headers:{
+            Authorization : token
+          }
+        }).then(res => {
+            const userData=res.data;
+            this.setState({
+              userData:userData
+            })
+          })
+          .catch(err => console.log(err))
+
         //Carousel
         Axios.get ('http://localhost:8016/books?sort=date_released&type=desc&limit=5')
           .then (res => {
@@ -76,20 +95,8 @@ class Menu extends React.Component{
       }
 
       Logout(){
-        localStorage.removeItem('UserData')
+        localStorage.removeItem('token')
         window.location.reload()
-      }
-
-      componentWillMount(){
-        let getStorage = localStorage.getItem('UserData')
-        if(!getStorage)
-          window.location.replace("http://localhost:3000/")
-        
-        let parse = JSON.parse(getStorage);
-
-        this.setState({
-          userData: parse.dataUser
-        })
       }
      
       render() {
@@ -102,13 +109,19 @@ class Menu extends React.Component{
                     <FontAwesomeIcon icon={faBars} onClick={() => this.onSetSidebarClose(false)}/>
                 </span>
                 <img src={userImage} alt="Not Found" className="userImage"/>
-                <center><h5>{user.full_name}</h5></center>
+                <center><h5>{user.fullname}</h5></center>
                 
                 {/* Menu */}
                 <div style={{marginTop:"8vh", marginLeft:"4vh"}}>
                     <h6><a href="javascript:void(0)" style={menu}>Explore</a></h6><br />
                     <h6><a href="javascript:void(0)" style={menu}>History</a></h6><br />
-                    <h6><a href="javascript:void(0)" style={menu} onClick={() => this.openModalAddBook(true)}>Add Book</a></h6><br/>
+                    {
+                      user.level === "admin" ?
+                      <Fragment>
+                        <h6><a href="javascript:void(0)" style={menu} onClick={() => this.openModalAddBook(true)}>Add Book</a></h6><br />
+                      </Fragment>
+                      : ''
+                    }
                     <h6><a href="javascript:void(0)" style={menu} onClick={this.Logout}>Log out</a></h6>
                 </div>
             </div>

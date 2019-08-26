@@ -2,36 +2,44 @@ import React from 'react'
 import Axios from 'axios'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Spinner from 'react-bootstrap/Spinner';
+import {connect} from 'react-redux';
+
+import {getYears} from '../Public/Actions/years';
 
 class GenreDropdown extends React.Component{
   constructor(){
     super()
     this.state = {
-      listYear: [],
+      data: [],
     }
   }
 
-  componentDidMount = () => {
-    Axios.get ('http://localhost:8016/books/year')
-      .then (res => {
-        console.log("DATA = ", res)
-        this.setState ({listYear: res.data.values});
-      })
-      .catch (err => console.log ('err = ', err));
+  componentDidMount = async () => {
+    await this.props.dispatch (getYears ());
+    this.setState ({
+      data: this.props.years,
+    });
   };
   
   render() {
-    const listYear = this.state.listYear
+    const year = this.state.data
     return(
         <NavDropdown title="All Time">
-            {listYear.length > 0 ? 
-            listYear.map((year) => {
+            {year.yearsList ? 
+            year.yearsList.map((year) => {
               return (
-                <NavDropdown.Item href={`http://localhost:3000/home/year/${year.year}`}>{year.year}</NavDropdown.Item>
+                <NavDropdown.Item>{year.year}</NavDropdown.Item>
               )
             }): <NavDropdown.Item href="#/"><Spinner animation="grow" size="sm"/> Loading...</NavDropdown.Item>}
         </NavDropdown>
     )
   }
 }
-export default GenreDropdown
+
+const mapStateToProps = state => {
+  return {
+    years: state.years,
+  };
+};
+
+export default connect (mapStateToProps) (GenreDropdown)

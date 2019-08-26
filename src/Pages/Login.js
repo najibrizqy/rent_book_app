@@ -54,13 +54,12 @@ class Login extends React.Component{
 
     loggingIn(res){
         console.log(res)
-        const userData = res.data
-        localStorage.setItem('UserData', JSON.stringify(userData))
+        localStorage.setItem('token', res.data.dataUser.token)
         window.location.reload()
     }
 
     render(){
-        if(localStorage.getItem('UserData')) return <Redirect to="/home"/>
+        if(localStorage.getItem('token')) return <Redirect to="/home"/>
         else
         return(
             <Container className="Login">

@@ -17,6 +17,7 @@ class BooksList extends React.Component{
       totalPage:1,
       page: 1,
       limit: 10,
+      search: ''
     }
   }
 
