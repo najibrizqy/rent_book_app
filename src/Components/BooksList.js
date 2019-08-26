@@ -1,11 +1,12 @@
 import React from 'react';
-import Axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Spinner from 'react-bootstrap/Spinner';
+import {connect} from 'react-redux';
 
 import '../Css/style.css';
 import imageNotFound from '../image-404.jpg';
+import {getBooks} from '../Public/Actions/books';
 
 class BooksList extends React.Component{
   constructor(props){
@@ -19,15 +20,12 @@ class BooksList extends React.Component{
     }
   }
 
-  componentDidMount(){
-    Axios.get("http://localhost:8016/books")
-      .then((result) =>{
-        this.setState({
-          data: result.data.values
-        })
-      })
-      .catch(err => console.log(err))
-  }
+  componentDidMount = async () => {
+    await this.props.dispatch (getBooks ());
+    this.setState ({
+      data: this.props.books,
+    });
+  };
 
   handleGetDetail(id){
     window.location.href = `http://localhost:3000/book_detail/${id}`
@@ -42,11 +40,11 @@ class BooksList extends React.Component{
             </div>
             
             <div style={grid} className="justify-content-between">
-              {book.length > 0 ?
-                book.map((res) => {
+              {book.booksList ?
+                book.booksList.map((res) => {
                   const image = res.image.length > 0 ? res.image : imageNotFound;
                   return(
-                      <Card className="card-book radius-top" onClick={() => this.handleGetDetail(res.id_book)}>
+                      <Card key={res.id_book} className="card-book radius-top" onClick={() => this.handleGetDetail(res.id_book)}>
                           <Card.Header style={{padding: '0px'}} class="radius-top">
                               <Card.Img variant="top" src={image} className="book-img radius-top"/>
                           </Card.Header>
@@ -80,4 +78,10 @@ const grid = {
   display: 'flex', flexWrap:"wrap", flexDirection: 'row'
 }
 
-export default BooksList
+const mapStateToProps = state => {
+  return {
+    books: state.books,
+  };
+};
+
+export default connect (mapStateToProps) (BooksList)
