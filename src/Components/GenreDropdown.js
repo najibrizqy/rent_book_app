@@ -27,7 +27,7 @@ class GenreDropdown extends React.Component{
             {genre.genresList ? 
             genre.genresList.map((genre) => {
               return (
-                <NavDropdown.Item href={`/genre/${genre.id_genre}`}>{genre.name}</NavDropdown.Item>
+                <NavDropdown.Item key={genre.id_genre}>{genre.name}</NavDropdown.Item>
               )
             }): <NavDropdown.Item href="#/"><Spinner animation="grow" size="sm"/> Loading...</NavDropdown.Item>}
         </NavDropdown>

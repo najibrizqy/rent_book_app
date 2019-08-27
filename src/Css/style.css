@@ -6,6 +6,21 @@ font-weight: normal;
 src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('woff');
 }
 
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+
 .box-search{
     position: relative;
 }
@@ -15,12 +30,6 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
     border-radius:1.25rem;
     padding-left: 50px;
     width:400px; 
-}
-
-.btn-search:focus, .btn:active:focus, .btn.active:focus{
-    outline: none;
-    box-shadow: unset;
-    border: 1px solid #ced4da;
 }
 
 .userImage{
@@ -34,6 +43,7 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
 }
 
 .card-carousel{
+    cursor: pointer;
     margin-top: 5vh;
     width: 600px;
     height: 300px;
@@ -131,10 +141,19 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
 }
 
 .card-book{
-    width: 28%;
-    margin: 2%;
+    display: flex;
+    flex-direction: column;
     border-radius: 20px;
     box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25);
+    cursor:pointer;
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: transform 0.25s ease-out;
+}
+
+.card-book:hover {
+    transform: scale(1.05)
 }
 
 .radius-top{
@@ -198,4 +217,18 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
 .modal-header .close{
     color: red;
     font-size: 30px;
+}
+
+.card-list{
+    width: 92vw;
+    margin : 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 50px;
+}
+
+.icon-menu {
+    font-size: 3vh;
+    margin-right: 2vh;
+    cursor: pointer;
 }

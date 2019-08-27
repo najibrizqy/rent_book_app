@@ -34,9 +34,7 @@ class BookDetail extends React.Component {
     }
 
     DeleteBook(){
-        const item = localStorage.getItem('UserData');
-        const parse = JSON.parse(item);
-        const token = parse.dataUser.token;
+        let token = localStorage.getItem('token')
 
         Axios.delete(`http://localhost:8016/books/${this.state.id_book}`, {
           headers:{

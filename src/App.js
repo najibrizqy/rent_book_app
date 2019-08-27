@@ -13,7 +13,10 @@ const App =  () => {
     <Router>
       <Switch>
         <Provider store={store}>
-          <Redirect to="/login" />
+          {
+            localStorage.getItem('token') == null ? 
+              <Redirect to="/login" />:''
+          }
           <Route path={'/login'} component={Login} /> 
           <Route path={'/home'} component={Home} />
           <Route path={'/signup'} component={Signup} />

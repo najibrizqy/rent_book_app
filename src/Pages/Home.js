@@ -1,9 +1,10 @@
 import React, {Fragment} from 'react';
 import Sidebar from "react-sidebar";
 import Axios from 'axios'
-import {Navbar, Nav, Container, Row, Button} from 'react-bootstrap';
+import {Navbar, Nav, Container} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import {connect} from 'react-redux';
 
 import logo from '../logo.png';
 import userImage from '../user.png';
@@ -14,15 +15,7 @@ import BooksList from '../Components/BooksList';
 import BookCarousel from '../Components/BookCarousel';
 import ModalAddBook from '../Components/ModalAddBook';
 import BooksSearch from '../Components/BooksSearch';
-import { async } from 'q';
-
-const stylingSideBar = {
-    sidebar: { 
-        background: "white",
-        width: '45vh',
-        position: 'fixed'
-    }
-}
+import {getBooks} from '../Public/Actions/books';
 
 class Menu extends React.Component{
     constructor() {
@@ -30,16 +23,21 @@ class Menu extends React.Component{
         this.state = {
           sidebarOpen: false,
           openModal: false,
-          index: 2,
-          properties: [],
-          property: {},
-          userData: []
+          userData: [],
+          booksData: [],
+          search: ''
         };
         this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
         this.Logout = this.Logout.bind(this);
       }
 
-      componentDidMount = () => {
+      componentDidMount = async () => {
+         //Get Data Books
+         await this.props.dispatch (getBooks ());
+         this.setState ({
+           booksData: this.props.books.booksList,
+         });
+
         //Get Token
         let token = localStorage.getItem('token')
         if(!token)
@@ -57,31 +55,8 @@ class Menu extends React.Component{
             })
           })
           .catch(err => console.log(err))
-
-        //Carousel
-        Axios.get ('http://localhost:8016/books?sort=date_released&type=desc&limit=5')
-          .then (res => {
-            this.setState ({properties: res.data.values, property: res.data.values[0]});
-          })
-          .catch (err => console.log ('err = ', err));
       };
 
-      nextProperty = () => {
-        const newIndex = this.state.index+1;
-        this.setState({
-          property: this.state.properties[newIndex],
-          index: newIndex
-        })
-      }
-
-      prevProperty = () => {
-        const newIndex = this.state.index-1;
-        this.setState({
-          property: this.state.properties[newIndex],
-          index: newIndex
-        })
-      }
-     
       onSetSidebarOpen(open) {
         this.setState({ sidebarOpen: open });
       }
@@ -100,12 +75,14 @@ class Menu extends React.Component{
       }
      
       render() {
-        const {properties} = this.state;
-        const index = this.state.index;
+        const {index, properties, booksData, search} = this.state;
         const user  = this.state.userData;
+        const filterData = booksData.filter(booksData => 
+          booksData.title.toLowerCase().includes(search.toLowerCase())
+        ) 
         const SideBarContent = (
             <div>
-                <span className="float-right" style={{fontSize: "3vh", marginRight:"2vh"}}>
+                <span className="float-right icon-menu">
                     <FontAwesomeIcon icon={faBars} onClick={() => this.onSetSidebarClose(false)}/>
                 </span>
                 <img src={userImage} alt="Not Found" className="userImage"/>
@@ -128,7 +105,7 @@ class Menu extends React.Component{
         )
 
         return (
-            <div style={{overflowX:'hidden'}}>
+            <div style={{overflowX:'hidden', overflowY: 'auto'}}>
                 <Sidebar
                     sidebar= {SideBarContent}
                     open= {this.state.sidebarOpen}
@@ -137,7 +114,7 @@ class Menu extends React.Component{
                 >
                 </Sidebar>
                 <Navbar bg="light" expand="lg" style={{boxShadow:'0px 4px 10px rgba(0, 0, 0, 0.25)'}}>
-                    <Navbar.Brand href="">
+                    <Navbar.Brand style={{cursor: 'pointer'}}>
                         <FontAwesomeIcon icon={faBars} onClick={() => this.onSetSidebarOpen(true)}/>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -146,30 +123,14 @@ class Menu extends React.Component{
                             <GenreDropdown />
                             <TimeDropdown />
                         </Nav>
-                        <BooksSearch />
+                        <BooksSearch handleChange={e => this.setState({search: e.target.value})}/>
                         <img src={logo} style={{width: '50px'}} alt="Not Found" className="ml-auto"/>
                         <b style={{fontSize: '30px', marginRight: '43px'}}>Library</b>
                     </Navbar.Collapse>
                 </Navbar>
                 <Container style={{margin:'0px',maxWidth:"none"}}>
-                    <Row className={`container1 cards-slider active-slide-${index}`}>
-                        <div className="cards-slider-wrapper" style={{
-                            'transform': `translateX(-${index*(100/properties.length)}%)`
-                        }}>
-                        {
-                            properties.map((bookData, index) => <BookCarousel key={bookData.id_book} property={bookData} index={index}/>)
-                        } 
-                        </div>
-                        <div className="btn-slide">
-                            <Button variant="light" className="slide-left" onClick={() => this.prevProperty()} disabled={index === 0}>
-                                <FontAwesomeIcon icon={faAngleLeft}/>
-                            </Button>
-                            <Button variant="light" className="slide-right" onClick={() => this.nextProperty()} disabled={index === properties.length-1}>
-                                <FontAwesomeIcon icon={faAngleRight}/>
-                            </Button>
-                        </div>
-                    </Row>
-                    <BooksList />
+                    <BookCarousel />
+                    <BooksList key={filterData} data={filterData}/>
                 </Container>
                 <ModalAddBook open={this.state.openModal} hide={() => this.setState({openModal: false})} />
             </div>
@@ -182,5 +143,19 @@ const menu = {
     color:'black',
     textDecoration:"none"
 }
+const stylingSideBar = {
+  sidebar: { 
+      background: "white",
+      width: '45vh',
+      position: 'fixed'
+  }
+}
 
-export default Menu;
+const mapStateToProps = state => {
+  return {
+    books: state.books,
+  };
+};
+
+
+export default connect (mapStateToProps) (Menu);
