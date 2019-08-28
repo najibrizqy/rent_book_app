@@ -24,10 +24,11 @@ class GenreDropdown extends React.Component{
     const genre = this.state.data
     return(
         <NavDropdown title="All Categories">
+            <NavDropdown.Item key="all" onClick={() => this.props.history.push(`/home/`)}>All Categories</NavDropdown.Item>
             {genre.genresList ? 
             genre.genresList.map((genre) => {
               return (
-                <NavDropdown.Item key={genre.id_genre}>{genre.name}</NavDropdown.Item>
+                <NavDropdown.Item key={genre.id_genre} onClick={() => this.props.history.push(`/home/genre/${genre.name}`)}>{genre.name}</NavDropdown.Item>
               )
             }): <NavDropdown.Item href="#/"><Spinner animation="grow" size="sm"/> Loading...</NavDropdown.Item>}
         </NavDropdown>

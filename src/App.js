@@ -13,12 +13,24 @@ const App =  () => {
     <Router>
       <Switch>
         <Provider store={store}>
-          {
-            localStorage.getItem('token') == null ? 
-              <Redirect to="/login" />:''
-          }
+          <Route
+            exact={true}
+            path={'/'}
+            render={() => {
+              let token = localStorage.getItem("token");
+              return token == null ? 
+              <Redirect to="./login"/>
+              :
+              <Redirect to="./home"/>;
+            }}
+          />
+          <Route
+            path={'/home'}
+            render={({history}) => {
+              return <Home history={history}/>
+            }}
+          />
           <Route path={'/login'} component={Login} /> 
-          <Route path={'/home'} component={Home} />
           <Route path={'/signup'} component={Signup} />
           <Route path={'/book_detail/:id'} component={BookDetail} />
         </Provider>

@@ -25,10 +25,11 @@ class GenreDropdown extends React.Component{
     const year = this.state.data
     return(
         <NavDropdown title="All Time">
+            <NavDropdown.Item key="all" onClick={() => this.props.history.push(`/home/`)}>All Time</NavDropdown.Item>
             {year.yearsList ? 
             year.yearsList.map((year) => {
               return (
-                <NavDropdown.Item>{year.year}</NavDropdown.Item>
+                <NavDropdown.Item key={year.year} onClick={() => this.props.history.push(`/home/year/${year.year}`)}>{year.year}</NavDropdown.Item>
               )
             }): <NavDropdown.Item href="#/"><Spinner animation="grow" size="sm"/> Loading...</NavDropdown.Item>}
         </NavDropdown>

@@ -69,13 +69,17 @@ class BookDetail extends React.Component {
 
     render(){
         const {bookDetail} = this.state
+        let getDate = new Date(bookDetail.date_released);
+        var month = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"][getDate.getMonth()];
+        const date_released = getDate.getDate() + ' ' + month + ' ' + getDate.getFullYear();
         return(
             <React.Fragment>
                 <Container style={{margin:"0px", maxWidth:"100%", fontFamily:"Airbnb Cereal App Medium"}}>
                     <Row style={{padding:"0px"}} className="image-header" style={{backgroundImage:`url(${bookDetail.image})`}}>
                         <Col md={10} style={{padding: '16px 0px 0px 19px', margin:'0px'}}>
                             <Link to='../home'>
-                                <Button variant="light" style={{borderRadius:"5vh"}}>
+                                <Button variant="light" className="btn-back">
                                     <FontAwesomeIcon icon={faArrowLeft} />
                                 </Button>
                             </Link>
@@ -91,7 +95,7 @@ class BookDetail extends React.Component {
                             <Row>
                                 <Col md={10}>
                                     <h1>{bookDetail.title}</h1>
-                                    <h5>{bookDetail.date_released}</h5>
+                                    <h5>{date_released}</h5>
                                 </Col>
                                 <Col>
                                 { (bookDetail.availability == "available") ? 
@@ -105,7 +109,7 @@ class BookDetail extends React.Component {
                             </p>
                         </Col>
                         <Col>
-                        <Card style={{ width: '10rem',marginLeft:"30vh"}}>
+                        <Card style={cover}>
                             <Card.Img variant="top" src={bookDetail.image} className="book-cover"/>
                         </Card>
                             <Button variant="warning" className="float-right btn-borrow"><b>Borrow</b></Button><br/>
@@ -134,6 +138,12 @@ class BookDetail extends React.Component {
 const menu = {
     color:'#FFF',
     textDecoration:"none"
+}
+
+const cover = { 
+    width: '10rem',
+    marginLeft:"30vh",
+    borderRadius: '15px'
 }
 
 export default BookDetail

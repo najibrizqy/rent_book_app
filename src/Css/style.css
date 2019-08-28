@@ -43,6 +43,7 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
 }
 
 .card-carousel{
+    position: relative;
     cursor: pointer;
     margin-top: 5vh;
     width: 600px;
@@ -57,6 +58,7 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
 }
 
 .slide-left{
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
     margin-top: 160px;
     margin-left: -341px;
     border-radius: 10vh;
@@ -66,6 +68,7 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
 }
 
 .slide-right{
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
     margin-top: 160px;
     margin-left: 1180px;
     border-radius: 10vh;
@@ -93,7 +96,7 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
 
 .list{
     margin-top: 10vh;
-    margin-left: 7vh;
+    margin-left: 3vh;
 }
 
 .book-img{
@@ -110,6 +113,8 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
 .book-cover{
     margin-top:-25vh;
     box-shadow:0px 4px 15px rgba(0, 0, 0, 0.25);
+    min-height: 215px;
+    border-radius: 15px;
 }
 
 .btn-borrow{
@@ -135,9 +140,9 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
     color:grey;
 }
 
-.loading{
-    margin-top:20vh;
-    margin-left:-15vh;
+.header-card{
+    padding: 0px;
+    position: relative;
 }
 
 .card-book{
@@ -175,31 +180,37 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
         opacity: 0.5;
         transform: scale(0.8);
         transition: opacity 300ms linear, transform 300ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+        box-shadow: none;
     }
 
 .cards-slider.active-slide-0 #card-0 {
     opacity: 1;
     transform: scale(1);
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
 }
 
 .cards-slider.active-slide-1 #card-1 {
     opacity: 1;
     transform: scale(1);
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
 }
 
 .cards-slider.active-slide-2 #card-2 {
     opacity: 1;
     transform: scale(1);
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
 }
 
 .cards-slider.active-slide-3 #card-3 {
     opacity: 1;
     transform: scale(1);
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
 }
 
 .cards-slider.active-slide-4 #card-4 {
     opacity: 1;
     transform: scale(1);
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
 }
   
   .cards-slider {
@@ -231,4 +242,108 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
     font-size: 3vh;
     margin-right: 2vh;
     cursor: pointer;
+}
+
+.available{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    border: 1px solid #2de02a;
+    padding: 0px 10px 0px 10px;
+    border-radius: 1rem;
+    color: #ffffff;
+    background-color: #2de02a;
+    font-family: cursive;
+}
+
+.not-available{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    border: 1px solid #d33939;
+    padding: 0px 10px 0px 10px;
+    border-radius: 1rem;
+    color: #ffffff;
+    background-color: #d33939;
+    font-family: cursive;
+}
+
+.genre-carousel{
+    border: 1px solid #fb9f1a;
+    padding: 2px 10px 2px 10px;
+    border-radius: 1rem;
+    color: #ffffff;
+    background-color: #fb9f1a;
+    font-family: monospace;
+    font-weight: bold;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.btn-back{
+    border-radius:5vh;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.ribbon {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    position: absolute;
+}
+.ribbon::before,
+.ribbon::after {
+    position: absolute;
+    z-index: -1;
+    content: '';
+    display: block;
+    border: 5px solid #2980b9;
+}
+.ribbon span {
+    position: absolute;
+    display: block;
+    width: 225px;
+    padding: 15px 0;
+    background-color: #3498db;
+    box-shadow: 0 5px 10px rgba(0,0,0,.1);
+    color: #fff;
+    font: 700 18px/1 'Lato', sans-serif;
+    text-shadow: 0 1px 1px rgba(0,0,0,.2);
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* top right*/
+.ribbon-top-right {
+    top: -10px;
+    right: -10px;
+}
+.ribbon-top-right::before,
+.ribbon-top-right::after {
+    border-top-color: transparent;
+    border-right-color: transparent;
+}
+.ribbon-top-right::before {
+    top: 0;
+    left: 0;
+}
+.ribbon-top-right::after {
+    bottom: 0;
+    right: 0;
+}
+.ribbon-top-right span {
+    left: -25px;
+    top: 30px;
+    transform: rotate(45deg);
+}
+
+.book-list{
+    border-bottom: medium solid #3d7e9a;
+    padding: 0px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.bottom{
+    border-bottom: medium double#3d7e9a;
+    margin: 0px 13px;
 }

@@ -60,20 +60,24 @@ class Carousel extends Component{
                                 <Card.Body></Card.Body>
                                 <Card.Footer className="footer">
                                     <h3 className="mb-2">{bookData.title}</h3>
-                                    {bookData.genre}
+                                    <span className="genre-carousel">{bookData.genre}</span>
                                 </Card.Footer>
+                                <div class="ribbon ribbon-top-right"><span>New</span></div>
                             </Card>
                         )
                     }
                 </div>
-                <div className="btn-slide">
-                    <Button variant="light" className="slide-left" onClick={() => this.prevProperty()} disabled={index === 0}>
-                        <FontAwesomeIcon icon={faAngleLeft}/>
-                    </Button>
-                    <Button variant="light" className="slide-right" onClick={() => this.nextProperty()} disabled={index === properties.length-1}>
-                        <FontAwesomeIcon icon={faAngleRight}/>
-                    </Button>
-                </div>
+                {
+                    properties.length > 0 ?
+                    <div className="btn-slide">
+                        <Button variant="light" className="slide-left" onClick={() => this.prevProperty()} disabled={index === 0}>
+                            <FontAwesomeIcon icon={faAngleLeft}/>
+                        </Button>
+                        <Button variant="light" className="slide-right" onClick={() => this.nextProperty()} disabled={index === properties.length-1}>
+                            <FontAwesomeIcon icon={faAngleRight}/>
+                        </Button>
+                    </div>:<span></span>
+                }
             </Row>
             )
     }
