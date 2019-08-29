@@ -3,8 +3,7 @@ import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom
 import {Provider} from 'react-redux';
 
 import Home from "./Pages/Home";
-import Login from "./Pages/Login";
-import Signup from "./Pages/Signup";
+import LandingPage from "./Pages/LandingPage";
 import BookDetail from "./Pages/BookDetail";
 import store from './Public/Store';
  
@@ -30,8 +29,18 @@ const App =  () => {
               return <Home history={history}/>
             }}
           />
-          <Route path={'/login'} component={Login} /> 
-          <Route path={'/signup'} component={Signup} />
+          <Route
+            path={'/login'}
+            render={({history}) => {
+              return <LandingPage history={history}/>;
+            }}
+          />
+          <Route
+            path={'/signup'}
+            render={({history}) => {
+              return <LandingPage history={history}/>;
+            }}
+          />
           <Route path={'/book_detail/:id'} component={BookDetail} />
         </Provider>
       </Switch>

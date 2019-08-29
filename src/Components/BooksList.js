@@ -12,13 +12,12 @@ class BooksList extends Component{
 
     this.state = {
       Source: props.Source || "http://localhost:8016/books",
-      history: props.history,
       data: []
     }
   }
 
   handleGetDetail(id){
-    window.location.href = `http://localhost:3000/book_detail/${id}`
+    this.props.history.push(`/book_detail/${id}`)
   }
 
 componentDidMount = async () =>{

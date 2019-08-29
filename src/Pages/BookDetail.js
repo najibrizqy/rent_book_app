@@ -8,7 +8,9 @@ import Card from 'react-bootstrap/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
+import { getBookDetail } from '../Public/Actions/books';
 import '../Css/style.css';
 import ModalEditBook from '../Components/ModalEditBook';
 import ModalDelete from '../Components/ModalDelete';
@@ -51,20 +53,16 @@ class BookDetail extends React.Component {
           .catch(err => console.log(err))
     }
 
-    componentDidMount(){
+    componentDidMount = async () => {
         let token = localStorage.getItem('token')
         if(!token)
           window.location.replace("http://localhost:3000/")
 
         let id = this.props.match.params.id;
-        Axios.get(`http://localhost:8016/books/${id}`)
-        .then((result) =>{
-            console.log("RESULT", result)
-            this.setState({
-                bookDetail: result.data[0]
-            })
-        })
-        .catch(err => console.log(err))
+        await this.props.dispatch (getBookDetail(id));
+        this.setState ({
+            data: this.props.genres,
+        });
     }
 
     render(){
@@ -145,5 +143,11 @@ const cover = {
     marginLeft:"30vh",
     borderRadius: '15px'
 }
+
+const mapStateToProps = (state) => {
+    return{
+      book: state.book
+    }
+  }
 
 export default BookDetail

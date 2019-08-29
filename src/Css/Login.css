@@ -1,31 +1,48 @@
 .Login{
     margin-left:0px;
     margin-right:0px;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.image-login{
+    position: relative;
+    padding: 0px;
+}
+
+.bg-image{
+    background-image: url('../library.png');
+    background-position: 50% 80%;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    background-repeat: repeat-x; 
+    background-size: 100%; 
+    z-index: -1;
+}
+
+.form{
+    padding: 30px 50px 0px 50px;
 }
 
 .img{
-    position: absolute;
-    width: 881px;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     left: 0;
     background-repeat: repeat-x; 
+    z-index: -1;
 }
 
 .logo{
-    position: absolute;
+    margin-top: 10px;
     width: 10vh;
     height: 10vh;
-    left: 88vh;
-    top: 12px;
 }
 
 .logoTitle{
     position: absolute;
-    width: 808px;
-    height: 318px;
-    left: -616px;
-    top: 5vh;
-
+    top:40px;
+    left:40px;
     font-family: Airbnb Cereal App Medium;
     font-size: 6vh;
     line-height: 10vh;
@@ -36,10 +53,8 @@
 .bottomFooter{
     position: absolute;
     margin-bottom: 0px;
-    width: 378px;
-    height: 30px;
-    left: -640px;
-    top: 95vh;
+    top: 660px;
+    left: 20px;
 
     font-family: Airbnb Cereal App Medium;
     font-style: normal;
@@ -51,26 +66,19 @@
 }
 
 .title{
-    position: absolute;
-    width: 354px;
-    height: 138px;
-    left: 40vh;
-    top: 18vh;
-
     font-family: Airbnb Cereal App Medium;
     font-size: 6vh;
-    line-height: 83px;
+    line-height: 85px;
 
     color: #424242;
 }
 
-.desc-title{
-    position: absolute;
-    width: 388px;
-    height: 110px;
-    left: 280px;
-    top: 28vh;
+.label{
+    font-size: 14px;
+    color: grey;
+}
 
+.desc-title{
     font-family: Airbnb Cereal App Medium;
     font-size: 2vh;
     line-height: 22px;
@@ -78,41 +86,18 @@
     color: #424242;
 }
 
-.Login .form-email{
-    position: absolute;
-    width: 340px;
-    height: 9.5vh;
-    left: 280px;
-    top: 39vh;
+.form-input{
+    height: 85px;
 
     background: #FFFFFF;
     /* Gray 5 */
-    box-sizing: border-box;
-    border-radius: 5px;
-}
-
-.Login .form-password{
-    position: absolute;
-    border: none;
-    width: 340px;
-    height: 9.5vh;
-    left: 280px;
-    top: 48.5vh;
-
-    background: #FFFFFF;
-    /* Gray 5 */
-
-    border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 5px;
 }
 
 .remember{
-    position: absolute;
     width: 163px;
     height: 35px;
-    left: 280px;
-    top: 60vh;
 
     font-family: Airbnb Cereal App Medium;
     font-size: 2vh;
@@ -122,12 +107,9 @@
 }
 
 .forgot-password{
+    cursor: pointer;
     position: absolute;
-    width: 163px;
-    height: 35px;
-    left: 503px;
-    top: 60vh;
-
+    left: 52px;
     font-family: Airbnb Cereal App Medium;
     font-size: 2vh;
     line-height: 22px;
@@ -135,44 +117,27 @@
     color: #424242;
 }
 
-.Login .submit-lg{
-    position: absolute;
-    width: 13vh;
-    height: 5vh;
-    left: 280px;
-    top: 68vh;
-
+.submit-lg{
     border-radius: 5px;
+    width: 90px;
 }
 
-.Login .submit-sg{
-    position: absolute;
-    width: 13vh;
-    height: 5vh;
-    left: 400px;
-    top: 68vh;
-
+.submit-sg{
     background: #FFFFFF;
     border: 1px solid #D0CCCC;
     box-sizing: border-box;
     border-radius: 5px;
+    width: 90px;
 }
 
 .term{
     position: absolute;
     margin-bottom: 0px;
-    width: 327px;
-    height: 63px;
-    left: 280px;
-    top: 90vh;
+    top:500px;
 
     font-family: Airbnb Cereal App Medium;
     font-size: 2vh;
     line-height: 22px;
 
     color: #D0CCCC;
-}
-
-.form-input{
-    height: calc(1.5em + 0.0rem + 2px);
 }

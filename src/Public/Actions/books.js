@@ -10,8 +10,20 @@ export const getBooks = (Source, search) => {
   return {
     type: 'GET_BOOKS',
     payload: Axios.get (url),
-  };
-};
+  }
+}
+
+export const getBookDetail = (id) => {
+  return {
+    type:'GET_BOOK_DETAIL',
+    payload: Axios.get(`http://localhost:8016/books/${id}`,{
+        headers:{
+          Authorization : token
+        }
+      }
+    )
+  }
+}
 
 export const addBook = (data) => {
   return {

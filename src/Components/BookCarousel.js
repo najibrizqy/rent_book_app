@@ -8,10 +8,6 @@ import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
 import '../Css/style.css'
 
-const handleGetDetail = (id) => {
-    window.location.href = `http://localhost:3000/book_detail/${id}`
-}
-
 class Carousel extends Component{
     constructor(){
         super()
@@ -47,6 +43,10 @@ class Carousel extends Component{
         })
     }
 
+    handleGetDetail = (id) => {
+        this.props.history.push(`/book_detail/${id}`)
+    }
+
     render(){
         const {index, properties} = this.state;
         return(
@@ -56,13 +56,13 @@ class Carousel extends Component{
                 }}>
                     {
                         properties.map((bookData, index) => 
-                            <Card className="card-carousel wrap" key={bookData.id_book} id={`card-${index}`} style={{backgroundImage: `url(${bookData.image})`}} onClick={() => handleGetDetail(bookData.id_book)}>
+                            <Card className="card-carousel wrap" key={bookData.id_book} id={`card-${index}`} style={{backgroundImage: `url(${bookData.image})`}} onClick={() => this.handleGetDetail(bookData.id_book)}>
                                 <Card.Body></Card.Body>
                                 <Card.Footer className="footer">
                                     <h3 className="mb-2">{bookData.title}</h3>
                                     <span className="genre-carousel">{bookData.genre}</span>
                                 </Card.Footer>
-                                <div class="ribbon ribbon-top-right"><span>New</span></div>
+                                <div className="ribbon ribbon-top-right"><span>New</span></div>
                             </Card>
                         )
                     }
