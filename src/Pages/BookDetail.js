@@ -22,7 +22,7 @@ class BookDetail extends React.Component {
             id_book: this.props.match.params.id,
             openModalEdit : false,
             openModalDelete : false,
-            bookDetail: []
+            bookDetail: [],
         }
         this.DeleteBook=this.DeleteBook.bind(this)
     }
@@ -58,10 +58,10 @@ class BookDetail extends React.Component {
         if(!token)
           window.location.replace("http://localhost:3000/")
 
-        let id = this.props.match.params.id;
+        let id = this.state.id_book;
         await this.props.dispatch (getBookDetail(id));
         this.setState ({
-            data: this.props.genres,
+            bookDetail: this.props.book.booksList,
         });
     }
 
@@ -146,8 +146,8 @@ const cover = {
 
 const mapStateToProps = (state) => {
     return{
-      book: state.book
+      book: state.books
     }
   }
 
-export default BookDetail
+export default connect (mapStateToProps) (BookDetail)

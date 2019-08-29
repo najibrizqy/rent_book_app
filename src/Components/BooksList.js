@@ -20,13 +20,12 @@ class BooksList extends Component{
     this.props.history.push(`/book_detail/${id}`)
   }
 
-componentDidMount = async () =>{
-  //Get Data Books
-  await this.props.dispatch (getBooks (this.state.Source, this.props.search));
-  this.setState ({
-    data: this.props.books,
-  });
-}
+  componentDidMount = async () =>{
+    await this.props.dispatch (getBooks (this.state.Source, this.props.search));
+    this.setState ({
+      data: this.props.books,
+    });
+  }
 
   render(){
     const {data} = this.state

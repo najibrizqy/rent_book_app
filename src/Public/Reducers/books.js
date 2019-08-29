@@ -1,5 +1,6 @@
 const initialState = {
     booksList: [],
+    booksNewRelease: [],
     isLoading: false,
     isFulfilled: false,
     isRejected: false,
@@ -27,6 +28,26 @@ const initialState = {
           isFulfilled: true,
           booksList: action.payload.data.values,
         };
+        case 'GET_BOOKS_NEW_RELEASE_PENDING':
+        return{
+          ...state,
+          isLoading:true,
+          isRejected:false,
+          isFulfilled:false,
+        };
+      case 'GET_BOOKS_NEW_RELEASE_REJECTED':
+        return{
+          ...state,
+          isLoading:false,
+          isRejected:true,
+        };
+      case 'GET_BOOKS_NEW_RELEASE_FULFILLED':
+        return{
+          ...state,
+          isLoading:false,
+          isFulfilled:true,
+          booksNewRelease: action.payload.data.values,
+        };
       case 'GET_BOOK_DETAIL_PENDING':
         return{
           ...state,
@@ -45,6 +66,7 @@ const initialState = {
           ...state,
           isLoading:false,
           isFulfilled:true,
+          booksList: action.payload.data.values[0],
         };
       case 'ADD_BOOKS_PENDING':
         return{

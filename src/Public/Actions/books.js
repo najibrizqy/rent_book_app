@@ -13,6 +13,18 @@ export const getBooks = (Source, search) => {
   }
 }
 
+export const getBooksNewRelease = () => {
+  return {
+    type:'GET_BOOKS_NEW_RELEASE',
+    payload: Axios.get('http://localhost:8016/books?sort=date_released&type=desc&limit=5',{
+        headers:{
+          Authorization : token
+        }
+      }
+    )
+  }
+}
+
 export const getBookDetail = (id) => {
   return {
     type:'GET_BOOK_DETAIL',
