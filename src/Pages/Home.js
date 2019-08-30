@@ -6,7 +6,7 @@ import { faBars, faSearch, faHistory, faBookMedical, faSignOutAlt } from '@forta
 import {Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import {getProfile} from '../Public/Actions/user';
+import {getProfile, logout} from '../Public/Actions/user';
 import userImage from '../user.png';
 import '../Css/style.css';
 
@@ -48,8 +48,9 @@ class Home extends React.Component{
         this.setState({openModal: open})
       }
 
-      Logout(){
-        localStorage.removeItem('token')
+      Logout = async () =>{
+        await this.props.dispatch(logout())
+        localStorage.clear()
         this.props.history.push('/login')
       }
      
@@ -61,7 +62,26 @@ class Home extends React.Component{
                     <FontAwesomeIcon icon={faBars} onClick={() => this.onSetSidebarOpen(false)}/>
                 </span>
                 <img src={userImage} alt="Not Found" className="userImage"/>
-                <center className="bottom"><h5>{user.fullname}</h5></center>
+                <div className="bottom">
+                  <center >
+                    <h5 style={{marginBottom:'0px'}}>{user.fullname}</h5>
+                    { 
+                      user.level == "user" ? 
+                        <h6 style={{color:'rgba(78, 70, 70, 0.73)'}}>@{user.username}</h6>
+                      : 
+                        <h6 style={{color:'rgba(78, 70, 70, 0.73)'}}>Admin</h6>
+                    }
+                  </center>
+                  {
+                    user.level == "user" ?  
+                      <div className="profile">
+                        <span>Id Card : {user.id}</span><br/>
+                        <span>Email : {user.email}</span>
+                      </div>
+                    : ""
+                  }
+                   
+                </div>
                 
                 {/* Menu */}
                 <div style={{marginTop:"6vh", marginLeft:"4vh"}}>
@@ -118,7 +138,7 @@ class Home extends React.Component{
                     }} 
                   />
                   <Route 
-                    path="/home/genre/:genre" 
+                    path="/home/genre/:genre"
                     component={(url) => {
                       return <BooksList key={window.location.href} Source={`http://localhost:8016/books/genre/${url.match.params.genre}`}/>;
                     }} 

@@ -55,7 +55,7 @@ class BooksList extends Component{
         </Row>
         <Row className="mb-5 justify-content-center">
             <div className="card-list">
-              {data ?
+              {data.length > 0 ?
                 data.map((res) => {
                   const image = res.image.length > 0 ? res.image : imageNotFound;
                   return(
@@ -74,7 +74,8 @@ class BooksList extends Component{
                   )
               }): <Alert variant="danger">
                     <Alert.Heading>Book not found.</Alert.Heading>
-                  </Alert>}
+                  </Alert>
+              }
             </div>
             <Pagination totalPage={totalPage} currentPage={currentPage} handleNext={this.handleNext} handlePage={this.handlePage}/>
         </Row>
