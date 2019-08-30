@@ -1,29 +1,27 @@
 import React, {Fragment} from 'react';
 import Sidebar from "react-sidebar";
-import Axios from 'axios'
-import {Navbar, Nav, Container} from 'react-bootstrap';
+import {Container} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faSearch, faHistory, faBookMedical, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import {Route} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-import logo from '../logo.png';
+import {getProfile} from '../Public/Actions/user';
 import userImage from '../user.png';
 import '../Css/style.css';
-import GenreDropdown from '../Components/GenreDropdown';
-import TimeDropdown from '../Components/TimeDropdown';
+
 import BooksList from '../Components/BooksList';
+import Navbar from '../Components/Navbar';
 import BookCarousel from '../Components/BookCarousel';
 import ModalAddBook from '../Components/ModalAddBook';
-import BooksSearch from '../Components/BooksSearch';
 
-class Menu extends React.Component{
+class Home extends React.Component{
     constructor() {
         super();
         this.state = {
           sidebarOpen: false,
           openModal: false,
           userData: [],
-          booksData: [],
           search: '',
         };
         this.Logout = this.Logout.bind(this);
@@ -33,20 +31,13 @@ class Menu extends React.Component{
         //Get Token
         let token = localStorage.getItem('token')
         if(!token)
-          window.location.replace("http://localhost:3000/")
+        this.props.history.push('/')
 
         //Get User Data
-        Axios.get("http://localhost:8016/users/profile",{
-          headers:{
-            Authorization : token
-          }
-        }).then(res => {
-            const userData=res.data;
-            this.setState({
-              userData:userData
-            })
+          await this.props.dispatch(getProfile())
+          this.setState({
+            userData: this.props.user.userProfile
           })
-          .catch(err => console.log(err))
       };
 
       onSetSidebarOpen = (action) => {
@@ -59,7 +50,7 @@ class Menu extends React.Component{
 
       Logout(){
         localStorage.removeItem('token')
-        window.location.reload()
+        this.props.history.push('/login')
       }
      
       render() {
@@ -74,7 +65,9 @@ class Menu extends React.Component{
                 
                 {/* Menu */}
                 <div style={{marginTop:"6vh", marginLeft:"4vh"}}>
-                    <h6 style={link} onClick={() => this.props.history.push(`/home/explore`)}><FontAwesomeIcon icon={faSearch} className="mr-4"/>Explore</h6><br />
+                    <h6 style={link} onClick={() => this.props.history.push(`/home/explore`)}>
+                      <FontAwesomeIcon icon={faSearch} className="mr-4"/>Explore
+                    </h6><br />
                     <h6 style={link}><FontAwesomeIcon icon={faHistory} className="mr-4"/>History</h6><br />
                     {
                       user.level === "admin" ?
@@ -97,21 +90,7 @@ class Menu extends React.Component{
                     styles= {stylingSideBar}
                 >
                 </Sidebar>
-                <Navbar bg="light" expand="lg" style={{boxShadow:'0px 4px 10px rgba(0, 0, 0, 0.25)'}}>
-                    <Navbar.Brand style={{cursor: 'pointer'}}>
-                        <FontAwesomeIcon icon={faBars} onClick={() => this.onSetSidebarOpen(true)}/>
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="mr-auto" style={{marginLeft: '10px'}}>
-                            <GenreDropdown history={this.props.history}/>
-                            <TimeDropdown history={this.props.history}/>
-                        </Nav>
-                        <BooksSearch history={this.props.history}/>
-                        <img src={logo} style={{width: '50px', cursor: 'pointer'}} alt="Not Found" className="ml-auto" onClick={(e) => this.props.history.push('/')}/>
-                        <b style={{fontSize: '30px', marginRight: '43px', cursor: 'pointer'}} onClick={(e) => this.props.history.push('/')}>Library</b>
-                    </Navbar.Collapse>
-                </Navbar>
+                <Navbar openSideBar={() => this.onSetSidebarOpen(true)} history={this.props.history} />
                 <Container style={{margin:'0px',maxWidth:"none"}}>
                   <Route 
                     path="/home" 
@@ -120,7 +99,7 @@ class Menu extends React.Component{
                       let params = new URLSearchParams(window.location.search)
                       return(
                         <Fragment>
-                          <BookCarousel />
+                          <BookCarousel history={history}/>
                           <BooksList key={window.location.href} search={params.get("search")} history={history} Source={`http://localhost:8016/books`}/>
                         </Fragment>
                       );
@@ -132,9 +111,9 @@ class Menu extends React.Component{
                     render={({history}) => {
                       let params = new URLSearchParams(window.location.search)
                       return(
-                        <div>
+                        <Fragment>
                           <BooksList key={window.location.href} search={params.get("search")} history={history} Source={`http://localhost:8016/books`}/>
-                        </div>
+                        </Fragment>
                       );
                     }} 
                   />
@@ -169,5 +148,10 @@ const stylingSideBar = {
   }
 }
 
+const mapStateToProps = (state) => {
+  return{
+    user: state.user,
+  }
+}
 
-export default Menu;
+export default connect (mapStateToProps) (Home);

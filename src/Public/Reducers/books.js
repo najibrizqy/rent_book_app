@@ -1,5 +1,6 @@
 const initialState = {
     booksList: [],
+    booksNewRelease: [],
     isLoading: false,
     isFulfilled: false,
     isRejected: false,
@@ -25,7 +26,47 @@ const initialState = {
           ...state,
           isLoading: false,
           isFulfilled: true,
-          booksList: action.payload.data.values,
+          booksList: action.payload.data,
+        };
+        case 'GET_BOOKS_NEW_RELEASE_PENDING':
+        return{
+          ...state,
+          isLoading:true,
+          isRejected:false,
+          isFulfilled:false,
+        };
+      case 'GET_BOOKS_NEW_RELEASE_REJECTED':
+        return{
+          ...state,
+          isLoading:false,
+          isRejected:true,
+        };
+      case 'GET_BOOKS_NEW_RELEASE_FULFILLED':
+        return{
+          ...state,
+          isLoading:false,
+          isFulfilled:true,
+          booksNewRelease: action.payload.data.values,
+        };
+      case 'GET_BOOK_DETAIL_PENDING':
+        return{
+          ...state,
+          isLoading:true,
+          isRejected:false,
+          isFulfilled:false,
+        };
+      case 'GET_BOOK_DETAIL_REJECTED':
+        return{
+          ...state,
+          isLoading:false,
+          isRejected:true,
+        };
+      case 'GET_BOOK_DETAIL_FULFILLED':
+        return{
+          ...state,
+          isLoading:false,
+          isFulfilled:true,
+          booksList: action.payload.data.values[0],
         };
       case 'ADD_BOOKS_PENDING':
         return{
@@ -46,6 +87,44 @@ const initialState = {
           isLoading:false,
           isFulfilled:true,
         };
+      case 'EDIT_BOOK_PENDING':
+        return{
+          ...state,
+          isLoading:true,
+          isRejected:false,
+          isFulfilled:false,
+        };
+      case 'EDIT_BOOK_REJECTED':
+        return{
+          ...state,
+          isLoading:false,
+          isRejected:true,
+        };
+      case 'EDIT_BOOK_FULFILLED':
+        return{
+          ...state,
+          isLoading:false,
+          isFulfilled:true,
+        };
+      case 'DELETE_BOOK_PENDING':
+        return{
+          ...state,
+          isLoading:true,
+          isRejected:false,
+          isFulfilled:false,
+        }
+      case 'DELETE_BOOK_REJECTED':
+        return{
+          ...state,
+          isLoading:false,
+          isRejected:true,
+        }
+      case 'DELETE_BOOK_FULFILLED':
+        return{
+          ...state,
+          isLoading:false,
+          isFulfilled:true,
+        }
       default:
         return state;
     }

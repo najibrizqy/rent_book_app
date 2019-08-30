@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import '../Css/style.css';
 import imageNotFound from '../image-404.jpg';
 import {getBooks} from '../Public/Actions/books';
+import Pagination from './Pagination';
 
 class BooksList extends Component{
   constructor(props){
@@ -12,25 +13,39 @@ class BooksList extends Component{
 
     this.state = {
       Source: props.Source || "http://localhost:8016/books",
-      history: props.history,
-      data: []
+      data: [],
+      currentPage: 1,
+      totalPage: 1,
     }
   }
 
   handleGetDetail(id){
-    window.location.href = `http://localhost:3000/book_detail/${id}`
+    this.props.history.push(`/book_detail/${id}`)
   }
 
-componentDidMount = async () =>{
-  //Get Data Books
-  await this.props.dispatch (getBooks (this.state.Source, this.props.search));
-  this.setState ({
-    data: this.props.books,
-  });
-}
+  handleNext = (page) => {
+    this.getBookList(this.state.currentPage + page)
+  }
+  
+  handlePage = (page) => {
+    this.getBookList(page)
+  }
+
+  componentDidMount(){
+    this.getBookList(1)
+  }
+
+   getBookList = async (page) =>{
+    await this.props.dispatch (getBooks (this.state.Source, this.props.search, page));
+    this.setState ({
+      data: this.props.books.booksList.values,
+      currentPage: page,
+      totalPage: this.props.books.booksList.totalPage,
+    });
+  }
 
   render(){
-    const {data} = this.state
+    const {data, currentPage, totalPage} = this.state
     return(
       <Fragment>
         <Row className="mb-4 mt-4 book-list">
@@ -38,16 +53,16 @@ componentDidMount = async () =>{
                 <h3 style={font}>List Book</h3>
             </div>
         </Row>
-        <Row className="mb-5">
+        <Row className="mb-5 justify-content-center">
             <div className="card-list">
-              {data.booksList ?
-                data.booksList.map((res) => {
+              {data ?
+                data.map((res) => {
                   const image = res.image.length > 0 ? res.image : imageNotFound;
                   return(
                       <Card key={res.id_book} className="card-book radius-top" onClick={() => this.handleGetDetail(res.id_book)}>
                           <Card.Header className="header-card" style={radiusTop}>
                               <Card.Img variant="top" src={image} className="book-img radius-top"/>
-                              <span className={(res.availability == "available") ? "available" : "not-available"}>{res.availability}</span>
+                              <span className={(res.availability == "Available") ? "available" : "not-available"}>{res.availability}</span>
                           </Card.Header>
                           <Card.Body>
                               <Card.Title className="font"><center>{res.title.length > 20 ?  res.title.substr(0, 20)+'...': res.title}</center></Card.Title>
@@ -61,6 +76,7 @@ componentDidMount = async () =>{
                     <Alert.Heading>Book not found.</Alert.Heading>
                   </Alert>}
             </div>
+            <Pagination totalPage={totalPage} currentPage={currentPage} handleNext={this.handleNext} handlePage={this.handlePage}/>
         </Row>
       </Fragment>
     )
