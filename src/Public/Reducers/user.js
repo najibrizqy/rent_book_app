@@ -41,6 +41,7 @@ const user = (state = initState, action)=>{
                 ...state,
                 isLoading:false,
                 isRejected:true,
+                errMsg:action.payload.response.data.errMsg
             }
         case 'REGISTER_FULFILLED':
             return{

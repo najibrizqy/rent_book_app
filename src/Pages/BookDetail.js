@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component, Fragment} from "react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,11 +10,12 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import { getBookDetail, deleteBook } from '../Public/Actions/books';
+import { getProfile } from '../Public/Actions/user';
 import '../Css/style.css';
 import ModalEditBook from '../Components/ModalEditBook';
 import ModalDelete from '../Components/ModalDelete';
 
-class BookDetail extends React.Component {
+class BookDetail extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -22,6 +23,7 @@ class BookDetail extends React.Component {
             openModalEdit : false,
             openModalDelete : false,
             bookDetail: [],
+            userData: []
         }
     }
 
@@ -51,10 +53,16 @@ class BookDetail extends React.Component {
         this.setState ({
             bookDetail: this.props.book.booksList,
         });
+
+        await this.props.dispatch (getProfile());
+        this.setState({
+            userData: this.props.user.userProfile
+        })
     }
 
     render(){
         const {bookDetail} = this.state
+        const user = this.state.userData
         let getDate = new Date(bookDetail.date_released);
         let month = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"][getDate.getMonth()];
@@ -70,10 +78,14 @@ class BookDetail extends React.Component {
                                 </Button>
                             </Link>
                         </Col>
-                        <Col md={2} className="float-right text-center" style={{fontSize:"20px", color:"#FFF"}}>
-                            <span><a href="javascript:void(0)" style={menu} onClick={() => this.openModalEdit(true)}>Edit</a></span>&nbsp;&nbsp; 
-                            <span><a href="javascript:void(0)" style={menu} onClick={this.DeleteBook}>Delete</a></span>
-                        </Col>
+                        {
+                            user.level == "admin" ? 
+                                <Col md={2} className="float-right text-center" style={{fontSize:"20px", color:"#FFF"}}>
+                                    <span><a href="javascript:void(0)" style={menu} onClick={() => this.openModalEdit(true)}>Edit</a></span>&nbsp;&nbsp; 
+                                    <span><a href="javascript:void(0)" style={menu} onClick={this.DeleteBook}>Delete</a></span>
+                                </Col>
+                            : ""
+                        }
                     </Row>
                     <Row style={{padding:"3vh", paddingLeft:"40px"}}>
                         <Col md={8}>
@@ -98,7 +110,18 @@ class BookDetail extends React.Component {
                         <Card style={cover}>
                             <Card.Img variant="top" src={bookDetail.image} className="book-cover"/>
                         </Card>
-                            <Button variant="warning" className="float-right btn-borrow"><b>Borrow</b></Button><br/>
+                        {   user.level == "admin" ? 
+                                (bookDetail.availability == "Available") ? 
+                                    <Fragment>
+                                        <Button variant="warning" className="float-right btn-borrow"><b>Borrow</b></Button><br/>
+                                    </Fragment>
+                                : 
+                                    <Fragment>
+                                        <Button variant="warning" className="float-right btn-borrow"><b>Return</b></Button><br/>
+                                    </Fragment>
+                            : ""
+                        }
+                            
                         </Col>
                     </Row>
                 </Container>
@@ -135,7 +158,8 @@ const cover = {
 
 const mapStateToProps = (state) => {
     return{
-      book: state.books
+      book: state.books,
+      user: state.user
     }
 }
 
