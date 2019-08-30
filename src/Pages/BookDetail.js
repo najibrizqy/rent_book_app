@@ -58,7 +58,7 @@ class BookDetail extends React.Component {
         let getDate = new Date(bookDetail.date_released);
         let month = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"][getDate.getMonth()];
-        const date_released = getDate.getDate() + ' ' + month + ' ' + getDate.getFullYear();
+        const date_released = ('0' + (getDate.getDate())).slice(-2) + ' ' + month + ' ' + getDate.getFullYear();
         return(
             <React.Fragment>
                 <Container style={{margin:"0px", maxWidth:"100%", fontFamily:"Airbnb Cereal App Medium"}}>

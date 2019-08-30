@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Row, Col, Form, ButtonToolbar, Button, Card} from 'react-bootstrap';
 import {connect} from 'react-redux';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 import {login} from '../Public/Actions/user';
 import Logo from '../logo.png'
@@ -13,7 +14,9 @@ class LoginForm extends Component {
         this.state = {
             email: '',
             password:'',
-            loggedIn:false,
+            isLoggedIn: false,
+            showModal: false,
+            errMsg: ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,7 +29,7 @@ class LoginForm extends Component {
         const name = target.name;
         this.setState({
           [name]: value
-        });
+        }, () => {console.log(this.state)});
     }
 
     handleSubmit = async (e) => {
@@ -36,9 +39,24 @@ class LoginForm extends Component {
           password: this.state.password
         }
         await this.props.dispatch(login(data))
-        window.localStorage.setItem("token", this.props.user.token)
+        .then(res =>{
+            console.log(res)
+            window.localStorage.setItem("token", res.action.payload.data.token)
+            this.setState({
+                isLoggedIn: true
+              })
+          })
+          .catch(() => {
+            this.setState({
+              showModal:true,
+              errMsg:this.props.user.errMsg
+            })
+          })
+    }
+
+    closeModal(close){
         this.setState({
-          loggedIn:true
+            showModal: close
         })
     }
 
@@ -47,7 +65,7 @@ class LoginForm extends Component {
     }
 
     render(){
-        if(localStorage.getItem('token')) return <Redirect to="../"/>
+        if(localStorage.getItem("token")) return <Redirect to="../" />
         else return(
             <Fragment>
                 <Col md={4}>
@@ -104,6 +122,9 @@ class LoginForm extends Component {
                         </Col>
                     </Row>
                 </Col>
+                <SweetAlert danger showCloseButton title="Warning!" show={this.state.showModal} onConfirm={() => this.closeModal(false)}>
+                    {this.state.errMsg}
+                </SweetAlert>
             </Fragment>
         )
     }

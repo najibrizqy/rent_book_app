@@ -1,5 +1,6 @@
 const initState = {
     userProfile:{},
+    errMsg:'',
     isLoading:false,
     isRejected:false,
     isFulfilled:false,
@@ -19,6 +20,7 @@ const user = (state = initState, action)=>{
                 ...state,
                 isLoading:false,
                 isRejected:true,
+                errMsg:action.payload.response.data.errMsg
             }
         case 'LOGIN_FULFILLED':
             return{

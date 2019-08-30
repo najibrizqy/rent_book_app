@@ -6,12 +6,20 @@ import years from './years';
 import user from './user';
 import status from './status';
 
-const rootReducer = combineReducers ({
+const appReducer = combineReducers ({
   books,
   genres,
   years,
   user,
   status,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    state = undefined
+  }
+
+  return appReducer(state, action)
+}
 
 export default rootReducer;
