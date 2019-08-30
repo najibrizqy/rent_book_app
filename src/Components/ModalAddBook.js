@@ -16,7 +16,7 @@ class ModalAddBook extends Component {
                 title: '',
                 description:'',
                 image:'',
-                date_released:'',
+                date_released: new Date(),
                 id_genre:'1',
             },
             resModal: false,
@@ -132,7 +132,6 @@ class ModalAddBook extends Component {
 
 const mapStateToProps = state => {
     return{
-      books: state.books,
       genres: state.genres
     }
 }

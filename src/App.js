@@ -26,7 +26,7 @@ const App =  () => {
           <Route
             path={'/home'}
             render={({history}) => {
-              return <Home history={history}/>
+              return <Home history={history} key={window.location.search}/>
             }}
           />
           <Route
@@ -41,7 +41,12 @@ const App =  () => {
               return <LandingPage history={history}/>;
             }}
           />
-          <Route path={'/book_detail/:id'} component={BookDetail} />
+          <Route 
+            path={'/book_detail/:id'} 
+            render={(props) => {
+              return <BookDetail history={props.history} id_book={props.match.params.id} />;
+            }}
+          />
         </Provider>
       </Switch>
     </Router>

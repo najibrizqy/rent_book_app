@@ -1,5 +1,4 @@
 import React from "react";
-import Axios from "axios";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,7 +9,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import { getBookDetail } from '../Public/Actions/books';
+import { getBookDetail, deleteBook } from '../Public/Actions/books';
 import '../Css/style.css';
 import ModalEditBook from '../Components/ModalEditBook';
 import ModalDelete from '../Components/ModalDelete';
@@ -19,12 +18,11 @@ class BookDetail extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            id_book: this.props.match.params.id,
+            id_book: this.props.id_book,
             openModalEdit : false,
             openModalDelete : false,
             bookDetail: [],
         }
-        this.DeleteBook=this.DeleteBook.bind(this)
     }
 
     openModalEdit(open){
@@ -35,30 +33,20 @@ class BookDetail extends React.Component {
         this.setState({openModalDelete: open})
     }
 
-    DeleteBook(){
-        let token = localStorage.getItem('token')
-
-        Axios.delete(`http://localhost:8016/books/${this.state.id_book}`, {
-          headers:{
-            Authorization : token,
-          }
-        })
-          .then(res => {
-            console.log(res)
-            this.setState({openModalDelete: true})
-            setTimeout(() => {
-                window.location.href="http://localhost:3000/home"
-            }, 3000);
-          })
-          .catch(err => console.log(err))
+    DeleteBook = async () => {
+        await this.props.dispatch (deleteBook (this.state.id_book));
+        this.setState({openModalDelete: true})
+        setTimeout(() => {
+            this.props.history.push('/');
+        }, 3000);
     }
 
     componentDidMount = async () => {
-        let token = localStorage.getItem('token')
+        const token = localStorage.getItem('token')
         if(!token)
-          window.location.replace("http://localhost:3000/")
+          this.props.history.push('/');
 
-        let id = this.state.id_book;
+        const id = this.state.id_book;
         await this.props.dispatch (getBookDetail(id));
         this.setState ({
             bookDetail: this.props.book.booksList,
@@ -68,7 +56,7 @@ class BookDetail extends React.Component {
     render(){
         const {bookDetail} = this.state
         let getDate = new Date(bookDetail.date_released);
-        var month = ["January", "February", "March", "April", "May", "June",
+        let month = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"][getDate.getMonth()];
         const date_released = getDate.getDate() + ' ' + month + ' ' + getDate.getFullYear();
         return(
@@ -96,7 +84,7 @@ class BookDetail extends React.Component {
                                     <h5>{date_released}</h5>
                                 </Col>
                                 <Col>
-                                { (bookDetail.availability == "available") ? 
+                                { (bookDetail.availability == "Available") ? 
                                     <h4 style={{color:"#99D815"}}>{bookDetail.availability}</h4>
                                 : <h4 style={{color:"red"}}>{bookDetail.availability}</h4>}
                                     
@@ -123,7 +111,8 @@ class BookDetail extends React.Component {
                 date_released={bookDetail.date_released}
                 id_genre={bookDetail.id_genre}
                 id_status={bookDetail.id_status}
-                open={this.state.openModalEdit} hide={() => this.setState({openModalEdit: false})} />
+                open={this.state.openModalEdit}
+                history={this.props.history} hide={() => this.setState({openModalEdit: false})} />
 
                 <ModalDelete title={bookDetail.title}
                 open={this.state.openModalDelete} hide={() => this.setState({openModalDelete: false})} />
@@ -148,6 +137,6 @@ const mapStateToProps = (state) => {
     return{
       book: state.books
     }
-  }
+}
 
 export default connect (mapStateToProps) (BookDetail)

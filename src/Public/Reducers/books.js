@@ -26,7 +26,7 @@ const initialState = {
           ...state,
           isLoading: false,
           isFulfilled: true,
-          booksList: action.payload.data.values,
+          booksList: action.payload.data,
         };
         case 'GET_BOOKS_NEW_RELEASE_PENDING':
         return{
@@ -87,6 +87,44 @@ const initialState = {
           isLoading:false,
           isFulfilled:true,
         };
+      case 'EDIT_BOOK_PENDING':
+        return{
+          ...state,
+          isLoading:true,
+          isRejected:false,
+          isFulfilled:false,
+        };
+      case 'EDIT_BOOK_REJECTED':
+        return{
+          ...state,
+          isLoading:false,
+          isRejected:true,
+        };
+      case 'EDIT_BOOK_FULFILLED':
+        return{
+          ...state,
+          isLoading:false,
+          isFulfilled:true,
+        };
+      case 'DELETE_BOOK_PENDING':
+        return{
+          ...state,
+          isLoading:true,
+          isRejected:false,
+          isFulfilled:false,
+        }
+      case 'DELETE_BOOK_REJECTED':
+        return{
+          ...state,
+          isLoading:false,
+          isRejected:true,
+        }
+      case 'DELETE_BOOK_FULFILLED':
+        return{
+          ...state,
+          isLoading:false,
+          isFulfilled:true,
+        }
       default:
         return state;
     }
