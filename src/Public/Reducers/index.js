@@ -5,6 +5,7 @@ import genres from './genres';
 import years from './years';
 import user from './user';
 import status from './status';
+import borrow from './borrow';
 
 const appReducer = combineReducers ({
   books,
@@ -12,6 +13,7 @@ const appReducer = combineReducers ({
   years,
   user,
   status,
+  borrow,
 });
 
 const rootReducer = (state, action) => {

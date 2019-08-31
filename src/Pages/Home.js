@@ -88,13 +88,15 @@ class Home extends React.Component{
                     <h6 style={link} onClick={() => this.props.history.push(`/home/explore`)}>
                       <FontAwesomeIcon icon={faSearch} className="mr-4"/>Explore
                     </h6><br />
-                    <h6 style={link}><FontAwesomeIcon icon={faHistory} className="mr-4"/>History</h6><br />
                     {
                       user.level === "admin" ?
                       <Fragment>
                         <h6 style={link} onClick={() => this.openModalAddBook(true)}><FontAwesomeIcon icon={faBookMedical} className="mr-4"/>Add Book</h6><br />
                       </Fragment>
-                      : ''
+                      : 
+                      <Fragment>
+                        <h6 style={link}><FontAwesomeIcon icon={faHistory} className="mr-4"/>History</h6><br />
+                      </Fragment>
                     }
                     <h6 style={link} onClick={this.Logout}><FontAwesomeIcon icon={faSignOutAlt} className="mr-4"/>Log out</h6>
                 </div>
@@ -140,13 +142,13 @@ class Home extends React.Component{
                   <Route 
                     path="/home/genre/:genre"
                     component={(url) => {
-                      return <BooksList key={window.location.href} Source={`http://localhost:8016/books/genre/${url.match.params.genre}`}/>;
-                    }} 
+                      return <BooksList key={window.location.href} Source={`http://localhost:8016/books/genre/${url.match.params.genre}`} history={url.history} />;
+                    }}
                   />
                   <Route 
                     path="/home/year/:year" 
                     component={(url) => {
-                      return <BooksList key={window.location.href} Source={`http://localhost:8016/books/year/${url.match.params.year}`}/>;
+                      return <BooksList key={window.location.href} Source={`http://localhost:8016/books/year/${url.match.params.year}`} history={url.history} />;
                     }} 
                   />
                 </Container>
