@@ -13,12 +13,6 @@ class Login extends React.Component{
         }
     }
 
-    loggingIn(res){
-        console.log(res)
-        localStorage.setItem('token', res.data.dataUser.token)
-        window.location.reload()
-    }
-
     render(){
         if(localStorage.getItem('token')) return this.props.history.push('/')
         else

@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from "react";
 import {Row, Col, Form, ButtonToolbar, Button, Card} from 'react-bootstrap';
 import {connect} from 'react-redux';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 import {register} from '../Public/Actions/user';
 import Logo from '../logo.png'
@@ -15,7 +16,11 @@ class SignupForm extends Component{
                 full_name: '',
                 email: '',
                 password: ''
-            }
+            },
+            showModal: false,
+            Msg: '',
+            status: '',
+            titleModal: ''
         }
     }
 
@@ -33,10 +38,38 @@ class SignupForm extends Component{
     handleSubmit = async (e) => {
         e.preventDefault();
         await this.props.dispatch(register(this.state.formUser))
-        this.props.history.push('/login')
+        .then(res =>{
+            this.setState({
+                showModal:true,
+                Msg: 'successfully registered',
+                status: 'success',
+                titleModal: 'Success'
+            })
+          })
+          .catch(() => {
+            this.setState({
+              showModal:true,
+              Msg:this.props.user.errMsg,
+              status: 'danger',
+              titleModal: 'Warning!'
+            })
+          })
+        
+    }
+
+    closeModal(close){
+        if(this.state.status == "success"){
+            this.props.history.push('/login')
+        }else{
+            this.setState({
+                showModal: close
+            })
+        }
+        
     }
 
     render(){
+        const {showModal, titleModal, status, Msg} = this.state
         return(
             <Fragment>
                 <Col md={4}>
@@ -101,6 +134,9 @@ class SignupForm extends Component{
                         </Col>
                     </Row>
                 </Col>
+                <SweetAlert type={status} showCloseButton title={titleModal} show={showModal} onConfirm={() => this.closeModal(false)}>
+                    {Msg}
+                </SweetAlert>
             </Fragment>
         )
     }

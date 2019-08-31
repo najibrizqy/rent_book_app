@@ -1,27 +1,32 @@
-import React from "react";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import React, {Component, Fragment} from "react";
+import {Container, Row, Col, Button, Card} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import { getBookDetail, deleteBook } from '../Public/Actions/books';
+import { getProfile } from '../Public/Actions/user';
+import { getBorrowedBook, returnBook } from '../Public/Actions/borrow';
 import '../Css/style.css';
 import ModalEditBook from '../Components/ModalEditBook';
 import ModalDelete from '../Components/ModalDelete';
+import ModalBorrow from '../Components/ModalBorrow';
 
-class BookDetail extends React.Component {
+class BookDetail extends Component {
     constructor(props){
         super(props)
         this.state = {
             id_book: this.props.id_book,
             openModalEdit : false,
             openModalDelete : false,
+            modalBorrow : false,
             bookDetail: [],
+            userData: [],
+            borrowedBook: [],
+            formData: {
+                return_at: new Date()
+            }
         }
     }
 
@@ -33,12 +38,29 @@ class BookDetail extends React.Component {
         this.setState({openModalDelete: open})
     }
 
+    modalBorrow(open){
+        this.setState({modalBorrow: open})
+    }
+
     DeleteBook = async () => {
         await this.props.dispatch (deleteBook (this.state.id_book));
         this.setState({openModalDelete: true})
         setTimeout(() => {
             this.props.history.push('/');
         }, 3000);
+    }
+
+    setAvailability = () => {
+        this.setState({
+            bookDetail : {...this.state.bookDetail, id_status: 2, availability: "Not Available"},
+        })
+    }
+    
+    returnBook = async () => {
+        await this.props.dispatch (returnBook (this.state.formData, this.state.borrowedBook.id));
+        this.setState({
+            bookDetail : {...this.state.bookDetail, id_status: 1, availability: "Available"}
+        })
     }
 
     componentDidMount = async () => {
@@ -51,10 +73,21 @@ class BookDetail extends React.Component {
         this.setState ({
             bookDetail: this.props.book.booksList,
         });
+
+        await this.props.dispatch (getBorrowedBook(id));
+        this.setState ({
+            borrowedBook: this.props.borrow.borrowedBook,
+        }, () => {console.log("TES",this.state)});
+
+        await this.props.dispatch (getProfile());
+        this.setState({
+            userData: this.props.user.userProfile
+        })
     }
 
     render(){
         const {bookDetail} = this.state
+        const user = this.state.userData
         let getDate = new Date(bookDetail.date_released);
         let month = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"][getDate.getMonth()];
@@ -70,10 +103,14 @@ class BookDetail extends React.Component {
                                 </Button>
                             </Link>
                         </Col>
-                        <Col md={2} className="float-right text-center" style={{fontSize:"20px", color:"#FFF"}}>
-                            <span><a href="javascript:void(0)" style={menu} onClick={() => this.openModalEdit(true)}>Edit</a></span>&nbsp;&nbsp; 
-                            <span><a href="javascript:void(0)" style={menu} onClick={this.DeleteBook}>Delete</a></span>
-                        </Col>
+                        {
+                            user.level == "admin" ? 
+                                <Col md={2} className="float-right text-center" style={{fontSize:"20px", color:"#FFF"}}>
+                                    <span><a href="javascript:void(0)" style={menu} onClick={() => this.openModalEdit(true)}>Edit</a></span>&nbsp;&nbsp; 
+                                    <span><a href="javascript:void(0)" style={menu} onClick={this.DeleteBook}>Delete</a></span>
+                                </Col>
+                            : ""
+                        }
                     </Row>
                     <Row style={{padding:"3vh", paddingLeft:"40px"}}>
                         <Col md={8}>
@@ -98,7 +135,18 @@ class BookDetail extends React.Component {
                         <Card style={cover}>
                             <Card.Img variant="top" src={bookDetail.image} className="book-cover"/>
                         </Card>
-                            <Button variant="warning" className="float-right btn-borrow"><b>Borrow</b></Button><br/>
+                        {   user.level == "admin" ? 
+                                (bookDetail.availability == "Available") ? 
+                                    <Fragment>
+                                        <Button variant="warning" className="float-right btn-borrow" onClick={() => this.modalBorrow(true)}><b>Borrow</b></Button><br/>
+                                    </Fragment>
+                                : 
+                                    <Fragment>
+                                        <Button variant="warning" className="float-right btn-borrow" onClick={() => this.returnBook()}><b>Return</b></Button><br/>
+                                    </Fragment>
+                            : ""
+                        }
+                            
                         </Col>
                     </Row>
                 </Container>
@@ -116,6 +164,13 @@ class BookDetail extends React.Component {
 
                 <ModalDelete title={bookDetail.title}
                 open={this.state.openModalDelete} hide={() => this.setState({openModalDelete: false})} />
+
+                <ModalBorrow 
+                open={this.state.modalBorrow} 
+                hide={() => this.setState({modalBorrow: false})}
+                id_book={this.state.id_book}
+                onSubmit={this.handleSubmit}
+                setAvailability={this.setAvailability}/>
             </React.Fragment>
         )
     }
@@ -135,7 +190,9 @@ const cover = {
 
 const mapStateToProps = (state) => {
     return{
-      book: state.books
+      book: state.books,
+      user: state.user,
+      borrow: state.borrow
     }
 }
 
