@@ -55,9 +55,9 @@ class ModalBorrow extends Component {
     }
 
     render(){
-        let now = new Date()
-        now.setDate(now.getDate() + 7)
-        let return_limit = new Date(now).toISOString().split('T')[0]
+        let borrow = new Date()
+        borrow.setDate(borrow.getDate() + 7)
+        let return_limit = new Date(borrow).toLocaleString()
         const {resModal, Msg, status, titleModal} = this.state
         return(
             <Fragment>
@@ -78,11 +78,11 @@ class ModalBorrow extends Component {
                                 </Form.Group>
                                 <Form.Group controlId="formBasicPassword">
                                     <Form.Label>Borrow At</Form.Label>
-                                    <Form.Control type="date" name="borrow_at" value={new Date().toISOString().split('T')[0]} readOnly/>
+                                    <Form.Control type="text" name="borrow_at" value={new Date().toLocaleString()} readOnly/>
                                 </Form.Group>
                                 <Form.Group controlId="formBasicPassword">
                                     <Form.Label>Return Limit</Form.Label>
-                                    <Form.Control type="date" name="return_at" value={return_limit} readOnly/>
+                                    <Form.Control type="text" name="return_at" value={return_limit} readOnly/>
                                 </Form.Group>
                             </Container>
                             <Button type="submit" variant="warning" className="btn-save float-right mt-3">

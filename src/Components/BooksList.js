@@ -46,6 +46,7 @@ class BooksList extends Component{
 
   render(){
     const {data, currentPage, totalPage} = this.state
+    console.log("COK", data)
     return(
       <Fragment>
         <Row className="mb-4 mt-4 book-list">
@@ -55,7 +56,7 @@ class BooksList extends Component{
         </Row>
         <Row className="mb-5 justify-content-center">
             <div className="card-list">
-              {data.length > 0 ?
+              {data !== undefined ?
                 data.map((res) => {
                   const image = res.image.length > 0 ? res.image : imageNotFound;
                   return(
@@ -63,6 +64,7 @@ class BooksList extends Component{
                           <Card.Header className="header-card" style={radiusTop}>
                               <Card.Img variant="top" src={image} className="book-img radius-top"/>
                               <span className={(res.availability == "Available") ? "available" : "not-available"}>{res.availability}</span>
+                              <span className="genre-label">{res.genre}</span>
                           </Card.Header>
                           <Card.Body>
                               <Card.Title className="font"><center>{res.title.length > 20 ?  res.title.substr(0, 20)+'...': res.title}</center></Card.Title>

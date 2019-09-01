@@ -14,6 +14,7 @@ import BooksList from '../Components/BooksList';
 import Navbar from '../Components/Navbar';
 import BookCarousel from '../Components/BookCarousel';
 import ModalAddBook from '../Components/ModalAddBook';
+import History from '../Components/History';
 
 class Home extends React.Component{
     constructor() {
@@ -95,7 +96,7 @@ class Home extends React.Component{
                       </Fragment>
                       : 
                       <Fragment>
-                        <h6 style={link}><FontAwesomeIcon icon={faHistory} className="mr-4"/>History</h6><br />
+                        <h6 style={link} onClick={() => this.props.history.push(`/home/history/`)}><FontAwesomeIcon icon={faHistory} className="mr-4" />History</h6><br />
                       </Fragment>
                     }
                     <h6 style={link} onClick={this.Logout}><FontAwesomeIcon icon={faSignOutAlt} className="mr-4"/>Log out</h6>
@@ -135,6 +136,17 @@ class Home extends React.Component{
                       return(
                         <Fragment>
                           <BooksList key={window.location.href} search={params.get("search")} history={history} Source={`http://localhost:8016/books`}/>
+                        </Fragment>
+                      );
+                    }} 
+                  />
+                  <Route 
+                    path="/home/history" 
+                    exact={true}
+                    render={({history}) => {
+                      return(
+                        <Fragment>
+                          <History key={window.location.href} history={history}/>
                         </Fragment>
                       );
                     }} 

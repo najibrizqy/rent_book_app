@@ -12,6 +12,7 @@ const ModalEditBook = (props) => {
             </Modal.Header>
             <Modal.Body>
                 <FormEdit
+                id_book={props.id_book}
                 bookDetail={props.bookDetail}
                 history={props.history}/>
             </Modal.Body>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
-import {Row, Button} from 'react-bootstrap';
+import {Row, Button, Spinner} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import {connect} from 'react-redux';
@@ -54,16 +54,19 @@ class Carousel extends Component{
                     'transform': `translateX(-${index*(100/data.length)}%)`
                 }}>
                     {
-                        data.map((bookData, index) => 
-                            <Card className="card-carousel wrap" key={bookData.id_book} id={`card-${index}`} style={{backgroundImage: `url(${bookData.image})`}} onClick={() => this.handleGetDetail(bookData.id_book)}>
-                                <Card.Body></Card.Body>
-                                <Card.Footer className="footer">
-                                    <h3 className="mb-2">{bookData.title}</h3>
-                                    <span className="genre-carousel">{bookData.genre}</span>
-                                </Card.Footer>
-                                <div className="ribbon ribbon-top-right"><span>New</span></div>
-                            </Card>
-                        )
+                        data.length > 0 ?
+                            data.map((bookData, index) => 
+                                <Card className="card-carousel wrap" key={bookData.id_book} id={`card-${index}`} style={{backgroundImage: `url(${bookData.image})`}} onClick={() => this.handleGetDetail(bookData.id_book)}>
+                                    <Card.Body></Card.Body>
+                                    <Card.Footer className="footer">
+                                        <h3 className="mb-2">{bookData.title}</h3>
+                                        <span className="genre-carousel">{bookData.genre}</span>
+                                    </Card.Footer>
+                                    <div className="ribbon ribbon-top-right"><span>New</span></div>
+                                </Card>
+                            )
+                        : 
+                            <Spinner animation="border" variant="primary" className="loading-carousel" />
                     }
                 </div>
                 {
@@ -75,7 +78,8 @@ class Carousel extends Component{
                         <Button variant="light" className="slide-right" onClick={() => this.nextProperty()} disabled={index === data.length-1}>
                             <FontAwesomeIcon icon={faAngleRight}/>
                         </Button>
-                    </div>:<span></span>
+                    </div>
+                    :""
                 }
             </Row>
             )
