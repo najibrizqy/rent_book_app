@@ -1,37 +1,56 @@
 import React, {Component, Fragment} from 'react';
 import {Container, Table} from 'react-bootstrap';
+import {connect} from 'react-redux';
+
+import {getHistory} from '../Public/Actions/borrow';
+import {getProfile} from '../Public/Actions/user';
 
 class History extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            userData: [],
+            data: [],
+        }
+    }
+
+    componentDidMount = async () =>{
+        //Get User Data
+        await this.props.dispatch(getProfile())
+        this.setState({
+          userData: this.props.user.userProfile
+        })
+
+        //Get History
+        await this.props.dispatch (getHistory (this.state.userData.id));
+        this.setState ({
+            data: this.props.borrow,
+        });
+    }
+
     render(){
         return(
             <Fragment>
                 <Container className="mt-4">
-                    <Table striped bordered hover>
+                    <Table striped bordered hover responsive>
                         <thead>
                             <tr>
-                            <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Borrow At</th>
+                                <th>Expected Return At</th>
+                                <th>Return At</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            </tr>
-                            <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                            </tr>
-                            <tr>
-                            <td>3</td>
-                            <td colSpan="2">Larry the Bird</td>
-                            <td>@twitter</td>
+                                <td>1</td>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
                             </tr>
                         </tbody>
                     </Table>
@@ -41,4 +60,11 @@ class History extends Component {
     }
 }
 
-export default History
+const mapStateToProps = state => {
+    return {
+      user : state.user,
+      borrow: state.borrow,
+    };
+  };
+
+export default connect (mapStateToProps) (History)

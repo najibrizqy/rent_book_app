@@ -28,19 +28,6 @@ class Home extends React.Component{
         this.Logout = this.Logout.bind(this);
       }
 
-      componentDidMount = async () => {
-        //Get Token
-        let token = localStorage.getItem('token')
-        if(!token)
-        this.props.history.push('/')
-
-        //Get User Data
-          await this.props.dispatch(getProfile())
-          this.setState({
-            userData: this.props.user.userProfile
-          })
-      };
-
       onSetSidebarOpen = (action) => {
         this.setState({ sidebarOpen: action });
       }
@@ -54,6 +41,19 @@ class Home extends React.Component{
         localStorage.clear()
         this.props.history.push('/login')
       }
+
+      componentDidMount = async () => {
+        //Get Token
+        let token = localStorage.getItem('token')
+        if(!token)
+        this.props.history.push('/')
+
+        //Get User Data
+        await this.props.dispatch(getProfile())
+        this.setState({
+          userData: this.props.user.userProfile
+        })
+      };
      
       render() {
         const user  = this.state.userData;
@@ -103,7 +103,6 @@ class Home extends React.Component{
                 </div>
             </div>
         )
-
         return (
             <div style={{overflowX:'hidden'}}>
                 <Sidebar
@@ -146,7 +145,7 @@ class Home extends React.Component{
                     render={({history}) => {
                       return(
                         <Fragment>
-                          <History key={window.location.href} history={history}/>
+                          <History key={window.location.href} history={history} />
                         </Fragment>
                       );
                     }} 
