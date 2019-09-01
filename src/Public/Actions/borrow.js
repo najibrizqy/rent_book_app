@@ -38,7 +38,7 @@ export const getHistory = (id) => {
 export const getBorrowedBook = (id) => {
   return{
       type: 'BORROWED_BOOK',
-      payload: Axios.get(`http://localhost:8016/rent_book/borrowed/${id}`,{
+      payload: Axios.get(`${process.env.REACT_APP_HOST}/rent_book/borrowed/${id}`,{
           headers:{
             Authorization : window.localStorage.getItem("token")
           }

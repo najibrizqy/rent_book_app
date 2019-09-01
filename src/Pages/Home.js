@@ -122,7 +122,7 @@ class Home extends React.Component{
                       return(
                         <Fragment>
                           <BookCarousel history={history}/>
-                          <BooksList key={window.location.href} search={params.get("search")} history={history} Source={`http://localhost:8016/books`}/>
+                          <BooksList key={window.location.href} search={params.get("search")} history={history} Source={`${process.env.REACT_APP_HOST}/books`}/>
                         </Fragment>
                       );
                     }} 
@@ -134,7 +134,7 @@ class Home extends React.Component{
                       let params = new URLSearchParams(window.location.search)
                       return(
                         <Fragment>
-                          <BooksList key={window.location.href} search={params.get("search")} history={history} Source={`http://localhost:8016/books`}/>
+                          <BooksList key={window.location.href} search={params.get("search")} history={history} Source={`${process.env.REACT_APP_HOST}/books`}/>
                         </Fragment>
                       );
                     }} 
@@ -153,13 +153,13 @@ class Home extends React.Component{
                   <Route 
                     path="/home/genre/:genre"
                     component={(url) => {
-                      return <BooksList key={window.location.href} Source={`http://localhost:8016/books/genre/${url.match.params.genre}`} history={url.history} />;
+                      return <BooksList key={window.location.href} Source={`${process.env.REACT_APP_HOST}/books/genre/${url.match.params.genre}`} history={url.history} />;
                     }}
                   />
                   <Route 
                     path="/home/year/:year" 
                     component={(url) => {
-                      return <BooksList key={window.location.href} Source={`http://localhost:8016/books/year/${url.match.params.year}`} history={url.history} />;
+                      return <BooksList key={window.location.href} Source={`${process.env.REACT_APP_HOST}/books/year/${url.match.params.year}`} history={url.history} />;
                     }} 
                   />
                 </Container>
