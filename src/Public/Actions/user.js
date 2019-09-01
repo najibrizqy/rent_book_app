@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-const url = 'http://localhost:8016/users/';
+const url = `${process.env.REACT_APP_HOST}/users/`;
 
 export const login = (data) => {
     return {
