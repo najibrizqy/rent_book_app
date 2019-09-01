@@ -3,7 +3,7 @@ import Axios from 'axios';
 
 export const getBooks = (Source, search, page) => {
   let url = `${Source}?page=${page}`
-  if(search !== null )
+  if(search !== null && search !== undefined)
     url += `&search=${search}`
 
   return {
