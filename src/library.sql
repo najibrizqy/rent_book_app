@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 01, 2019 at 04:32 PM
+-- Generation Time: Sep 01, 2019 at 05:19 PM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.6
 
@@ -73,24 +73,6 @@ INSERT INTO `books` (`id_book`, `title`, `description`, `image`, `date_released`
 (35, 'She: A History of the Adventure', 'Pertama kali dirilis pada 1887, She: A History of the Adventure mengisahkan tentang Afrika dan legenda kuno. Sang penulis menulis novel ini berdasarkan pengetahuannya tentang kedua hal tersebut. Ia mengungkapkan kisah tentang Aisyah, ratu dari suku Afrika Tengah yang misterius dan konon memiliki kemampuan untuk hidup abadi. Sang ratu adalah perwujudan dari sosok perempuan yang sangat cantik dan bisa menjadi seseorang yang lebih mematikan daripada laki-laki. Novel ini dianggap sebagai salah satu perintis novel bergenre Lost World, yaitu sebuah dunia misterius yang hilang dari peradaban modern.', 'https://s3-ap-southeast-1.amazonaws.com/asset1.gotomalls.com/uploads/media/images/article/M44_Kct5IMcSJSMX/article_content_image/img-M44_Kct5IMcSJSMX-d-med-15488383987323.jpg', '2018-12-20', 5, 1, '2019-08-30 13:55:46', '2019-08-30 13:55:46'),
 (36, 'Soul Land IV', 'Mengikuti dengan Binatang Buas Roh dan Guru Jiwa yang hampir punah. Kekuatan bersama dan pengarsipan perdamaian. 10.000 tahun telah berlalu sejak akhir pertempuran pesawat Douluo dengan pesawat Abyss. Energi berlimpah dari Abyss membuka pintu bagi para penguasa jiwa dan makhluk buas di pesawat Douluo untuk mencapai pengetahuan, kekuatan, dan jajaran yang dulunya mustahil untuk dicapai. Manusia-manusia Douluo Plane menaklukkan ruang dan menemukan pesawat-pesawat lain.', 'https://komikcast.com/wp-content/uploads/2019/05/32454kdfjsakldfjsad-e1565626700196.jpg', '2019-03-23', 2, 1, '2019-08-30 22:16:14', '2019-08-30 22:16:14'),
 (38, 'The Lord of the Rings', 'Trilogi The Lord of the Rings diterbitkan pertama kali tahun 1954 dan menjadi salah satu karya sastra yang paling banyak dibaca dan berpengaruh sepanjang masa. Novel ini menceritakan petualangan penyihir Gandalf dan seorang hobbit muda bernama Frodo Baggins. Mereka melakukan perjalanan sangat berbahaya untuk menghancurkan sebuah cincin misterius. Cincin tersebut merupakan senjata ampuh yang dimiliki oleh pangeran kegelapan bernama Sauron. Dengan kekuatan cincin tersebut, ia berencana untuk menghancurkan dunia. Satu-satunya cara untuk mencegah hal tersebut terjadi adalah mengembalikan cincin itu ke Mordor. The Lord of the Rings juga sudah diangkat ke layar lebar dengan efek-efek yang akan membuat para penontonnya terpukau.', 'https://s3-ap-southeast-1.amazonaws.com/asset1.gotomalls.com/uploads/media/images/article/M44_Kct5IMcSJSMX/article_content_image/img-M44_Kct5IMcSJSMX-d-med-15488383972827.jpg', '2019-08-31', 6, 1, '2019-08-31 14:39:48', '2019-08-31 14:39:48');
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `books_list`
--- (See below for the actual view)
---
-CREATE TABLE `books_list` (
-`id_book` int(11)
-,`title` varchar(50)
-,`description` text
-,`image` varchar(250)
-,`date_released` date
-,`id_genre` int(11)
-,`genre` varchar(20)
-,`id_status` int(11)
-,`availability` varchar(20)
-);
 
 -- --------------------------------------------------------
 
@@ -187,25 +169,8 @@ INSERT INTO `transaction` (`id`, `id_user`, `id_book`, `rent_at`, `return_at`) V
 (29, 10, 20, '2019-09-01 16:43:27', '2019-09-01 16:44:31'),
 (30, 10, 20, '2019-09-01 21:09:16', '2019-09-01 21:24:29'),
 (31, 10, 34, '2019-09-01 21:26:14', '2019-09-01 21:27:18'),
-(32, 10, 20, '2019-09-01 21:27:37', '2019-09-01 21:27:41');
-
---
--- Triggers `transaction`
---
-DELIMITER $$
-CREATE TRIGGER `rent_book` AFTER INSERT ON `transaction` FOR EACH ROW UPDATE books
-SET
-id_status = 2
-WHERE id_book = NEW.id_book
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `return_book` AFTER UPDATE ON `transaction` FOR EACH ROW UPDATE books
-SET
-id_status = 1
-WHERE id_book = NEW.id_book
-$$
-DELIMITER ;
+(32, 10, 20, '2019-09-01 21:27:37', '2019-09-01 21:27:41'),
+(33, 10, 20, '2019-09-01 21:44:06', '2019-09-01 21:44:10');
 
 -- --------------------------------------------------------
 
@@ -236,15 +201,6 @@ INSERT INTO `users` (`id_user`, `username`, `full_name`, `email`, `password`, `l
 (7, 'manager', 'Najibullah Rizqy', 'manager@gmail.com', '70fb3cd9ab6206b042ea5afea1d242eb83c3deec', 'user', '2019-08-30 20:13:28', '2019-08-30 20:13:28'),
 (8, 'dicky', 'dicky mahendra', 'dicky@gmail.com', 'aca7bb46e2a6d11a266f2260b66db5264241f6e9', 'user', '2019-08-30 20:27:40', '2019-08-30 20:27:40'),
 (10, 'Ryu', 'ryuser', 'ryu@gmail.com', '67447ccdd9a4000d70d16b590b666046aa00c3c3', 'user', '2019-08-31 12:22:35', '2019-08-31 12:22:35');
-
--- --------------------------------------------------------
-
---
--- Structure for view `books_list`
---
-DROP TABLE IF EXISTS `books_list`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `books_list`  AS  select `books`.`id_book` AS `id_book`,`books`.`title` AS `title`,`books`.`description` AS `description`,`books`.`image` AS `image`,`books`.`date_released` AS `date_released`,`books`.`id_genre` AS `id_genre`,`genre`.`name` AS `genre`,`status`.`id_status` AS `id_status`,`status`.`availability` AS `availability` from ((`books` join `genre` on(`books`.`id_genre` = `genre`.`id_genre`)) join `status` on(`books`.`id_status` = `status`.`id_status`)) ;
 
 --
 -- Indexes for dumped tables
@@ -310,7 +266,7 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `users`
