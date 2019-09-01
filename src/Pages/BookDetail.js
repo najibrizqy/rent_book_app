@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 import { getBookDetail, deleteBook } from '../Public/Actions/books';
 import { getProfile } from '../Public/Actions/user';
@@ -21,6 +22,8 @@ class BookDetail extends Component {
             openModalEdit : false,
             openModalDelete : false,
             modalBorrow : false,
+            showSuccessModal: false,
+            showReturnModal: false,
             bookDetail: [],
             userData: [],
             borrowedBook: [],
@@ -44,7 +47,10 @@ class BookDetail extends Component {
 
     DeleteBook = async () => {
         await this.props.dispatch (deleteBook (this.state.id_book));
-        this.setState({openModalDelete: true})
+        this.setState({
+            openModalDelete : false,
+            showSuccessModal: true
+        })
         setTimeout(() => {
             this.props.history.push('/');
         }, 3000);
@@ -57,10 +63,21 @@ class BookDetail extends Component {
     }
     
     returnBook = async () => {
+        const id = this.state.id_book;
+        await this.props.dispatch (getBorrowedBook(id));
+        this.setState ({
+            borrowedBook: this.props.borrow.borrowedBook,
+        });
         await this.props.dispatch (returnBook (this.state.formData, this.state.borrowedBook.id));
         this.setState({
-            bookDetail : {...this.state.bookDetail, id_status: 1, availability: "Available"}
+            bookDetail : {...this.state.bookDetail, id_status: 1, availability: "Available"},
+            showReturnModal: true
         })
+        setTimeout(() => {
+            this.setState({
+                showReturnModal: false
+            })
+        }, 2000);
     }
 
     componentDidMount = async () => {
@@ -77,7 +94,7 @@ class BookDetail extends Component {
         await this.props.dispatch (getBorrowedBook(id));
         this.setState ({
             borrowedBook: this.props.borrow.borrowedBook,
-        }, () => {console.log("TES",this.state)});
+        });
 
         await this.props.dispatch (getProfile());
         this.setState({
@@ -107,7 +124,7 @@ class BookDetail extends Component {
                             user.level == "admin" ? 
                                 <Col md={2} className="float-right text-center" style={{fontSize:"20px", color:"#FFF"}}>
                                     <span><a href="javascript:void(0)" style={menu} onClick={() => this.openModalEdit(true)}>Edit</a></span>&nbsp;&nbsp; 
-                                    <span><a href="javascript:void(0)" style={menu} onClick={this.DeleteBook}>Delete</a></span>
+                                    <span><a href="javascript:void(0)" style={menu} onClick={() => this.openModalDelete(true)}>Delete</a></span>
                                 </Col>
                             : ""
                         }
@@ -152,18 +169,18 @@ class BookDetail extends Component {
                 </Container>
 
                 <ModalEditBook
-                id_book={bookDetail.id_book}
-                title={bookDetail.title}
-                description={bookDetail.description}
-                image={bookDetail.image}
-                date_released={bookDetail.date_released}
-                id_genre={bookDetail.id_genre}
-                id_status={bookDetail.id_status}
+                bookDetail={bookDetail}
                 open={this.state.openModalEdit}
                 history={this.props.history} hide={() => this.setState({openModalEdit: false})} />
 
-                <ModalDelete title={bookDetail.title}
-                open={this.state.openModalDelete} hide={() => this.setState({openModalDelete: false})} />
+                <ModalDelete 
+                title={bookDetail.title}
+                open={this.state.openModalDelete} 
+                hide={() => this.setState({openModalDelete: false})} 
+                delete={() => this.DeleteBook} />
+                <SweetAlert success title="Deleted!" show={this.state.showSuccessModal} showConfirm={false} >
+                    Book has been deleted!
+                </SweetAlert>
 
                 <ModalBorrow 
                 open={this.state.modalBorrow} 
@@ -171,6 +188,10 @@ class BookDetail extends Component {
                 id_book={this.state.id_book}
                 onSubmit={this.handleSubmit}
                 setAvailability={this.setAvailability}/>
+
+                <SweetAlert success showCloseButton title="Success!" show={this.state.showReturnModal} showConfirm={false}>
+                    Successful book returning
+                </SweetAlert>
             </React.Fragment>
         )
     }

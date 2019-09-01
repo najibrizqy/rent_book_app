@@ -41,7 +41,7 @@ class SignupForm extends Component{
         .then(res =>{
             this.setState({
                 showModal:true,
-                Msg: 'successfully registered',
+                Msg: 'Successfully registered',
                 status: 'success',
                 titleModal: 'Success'
             })
