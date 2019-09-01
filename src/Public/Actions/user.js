@@ -29,3 +29,13 @@ export const getProfile = () => {
         })
     }
 }
+export const getUserById = (id) => {
+    return {
+        type:'GET_USERID',
+        payload: Axios.get(url + id,{
+            headers:{
+                Authorization : localStorage.getItem("token")
+            }
+        })
+    }
+}

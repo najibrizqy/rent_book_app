@@ -13,12 +13,12 @@ class FormEdit extends React.Component {
         this.state = {
             id_book : props.id_book,
             formData:{
-                title: props.title,
-                description: props.description,
-                image: props.image,
-                date_released: props.date_released,
-                id_genre: props.id_genre,
-                id_status: props.id_status
+                title: props.bookDetail.title,
+                description: props.bookDetail.description,
+                image: props.bookDetail.image,
+                date_released: props.bookDetail.date_released,
+                id_genre: props.bookDetail.id_genre,
+                id_status: props.bookDetail.id_status
             },
             genreList: [],
             statusList: []

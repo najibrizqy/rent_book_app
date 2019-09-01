@@ -4,9 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 import { getBookDetail, deleteBook } from '../Public/Actions/books';
-import { getProfile } from '../Public/Actions/user';
+import { getProfile, getUserById } from '../Public/Actions/user';
 import { getBorrowedBook, returnBook } from '../Public/Actions/borrow';
 import '../Css/style.css';
 import ModalEditBook from '../Components/ModalEditBook';
@@ -21,12 +22,16 @@ class BookDetail extends Component {
             openModalEdit : false,
             openModalDelete : false,
             modalBorrow : false,
+            showSuccessModal: false,
+            showReturnModal: false,
             bookDetail: [],
             userData: [],
             borrowedBook: [],
+            userRegular:[],
             formData: {
                 return_at: new Date()
-            }
+            },
+            returnLimit:''
         }
     }
 
@@ -44,7 +49,10 @@ class BookDetail extends Component {
 
     DeleteBook = async () => {
         await this.props.dispatch (deleteBook (this.state.id_book));
-        this.setState({openModalDelete: true})
+        this.setState({
+            openModalDelete : false,
+            showSuccessModal: true
+        })
         setTimeout(() => {
             this.props.history.push('/');
         }, 3000);
@@ -54,13 +62,58 @@ class BookDetail extends Component {
         this.setState({
             bookDetail : {...this.state.bookDetail, id_status: 2, availability: "Not Available"},
         })
+        this.getBorrowedBook()
     }
     
     returnBook = async () => {
+        const id = this.state.id_book;
+        await this.props.dispatch (getBorrowedBook(id));
+        this.setState ({
+            borrowedBook: this.props.borrow.borrowedBook,
+        });
         await this.props.dispatch (returnBook (this.state.formData, this.state.borrowedBook.id));
         this.setState({
-            bookDetail : {...this.state.bookDetail, id_status: 1, availability: "Available"}
+            bookDetail : {...this.state.bookDetail, id_status: 1, availability: "Available"},
+            showReturnModal: true
         })
+        setTimeout(() => {
+            this.setState({
+                showReturnModal: false
+            })
+        }, 2000);
+    }
+
+    getUserId = async () =>{
+        if(this.state.borrowedBook !== undefined){
+            await this.props.dispatch (getUserById(this.state.borrowedBook.id_user));
+            this.setState({
+                userRegular: this.props.user.userId[0]
+            })
+        }
+    }
+
+    getBorrowedBook = async () => {
+        const id = this.state.id_book;
+        await this.props.dispatch (getBorrowedBook(id));
+        await this.setState ({
+            borrowedBook: this.props.borrow.borrowedBook,
+        });
+        await this.getUserId()
+        this.getReturnLimit()
+    }
+
+    getReturnLimit = () => {
+        if(this.state.borrowedBook != undefined){
+            let rent_at = new Date(this.state.borrowedBook.rent_at)
+            rent_at.setDate(rent_at.getDate() + 7)
+            let month_limit = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"][rent_at.getMonth()];
+            let time = rent_at.toLocaleTimeString()
+            let return_date = ('0' + (rent_at.getDate())).slice(-2) + ' ' + month_limit + ' ' + rent_at.getFullYear() + ', ' + time;
+            this.setState({
+                returnLimit: return_date
+            })
+        }
     }
 
     componentDidMount = async () => {
@@ -74,10 +127,7 @@ class BookDetail extends Component {
             bookDetail: this.props.book.booksList,
         });
 
-        await this.props.dispatch (getBorrowedBook(id));
-        this.setState ({
-            borrowedBook: this.props.borrow.borrowedBook,
-        }, () => {console.log("TES",this.state)});
+        this.getBorrowedBook()
 
         await this.props.dispatch (getProfile());
         this.setState({
@@ -86,17 +136,19 @@ class BookDetail extends Component {
     }
 
     render(){
-        const {bookDetail} = this.state
+        const {bookDetail, userRegular, returnLimit, id_book} = this.state
         const user = this.state.userData
+
         let getDate = new Date(bookDetail.date_released);
         let month = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"][getDate.getMonth()];
         const date_released = ('0' + (getDate.getDate())).slice(-2) + ' ' + month + ' ' + getDate.getFullYear();
+        
         return(
             <React.Fragment>
-                <Container style={{margin:"0px", maxWidth:"100%", fontFamily:"Airbnb Cereal App Medium"}}>
-                    <Row style={{padding:"0px"}} className="image-header" style={{backgroundImage:`url(${bookDetail.image})`}}>
-                        <Col md={10} style={{padding: '16px 0px 0px 19px', margin:'0px'}}>
+                <Container className="detail-container">
+                    <Row className="image-header" style={{backgroundImage:`url(${bookDetail.image})`,padding:"0px"}}>
+                        <Col md={9}>
                             <Link to='../home'>
                                 <Button variant="light" className="btn-back">
                                     <FontAwesomeIcon icon={faArrowLeft} />
@@ -105,22 +157,36 @@ class BookDetail extends Component {
                         </Col>
                         {
                             user.level == "admin" ? 
-                                <Col md={2} className="float-right text-center" style={{fontSize:"20px", color:"#FFF"}}>
-                                    <span><a href="javascript:void(0)" style={menu} onClick={() => this.openModalEdit(true)}>Edit</a></span>&nbsp;&nbsp; 
-                                    <span><a href="javascript:void(0)" style={menu} onClick={this.DeleteBook}>Delete</a></span>
+                                <Col md={3} className="text-right btn-action">
+                                    <Button variant="outline-primary btn-edit" onClick={() => this.openModalEdit(true)}>Edit</Button>
+                                    <Button variant="outline-danger" onClick={() => this.openModalDelete(true)}>Delete</Button>
                                 </Col>
                             : ""
                         }
                     </Row>
-                    <Row style={{padding:"3vh", paddingLeft:"40px"}}>
+                    <Row className="detail-items">
                         <Col md={8}>
                             <Button variant="warning" className="btn-genre"><b>{bookDetail.genre}</b></Button><br/>
                             <Row>
-                                <Col md={10}>
+                                <Col md={9}>
                                     <h1>{bookDetail.title}</h1>
                                     <h5>{date_released}</h5>
+                                    {
+                                        bookDetail.availability == "Available" ?
+                                            ""
+                                        :
+                                        user.id == userRegular.id_user ?
+                                            ""
+                                        :
+                                        <Fragment>
+                                            <span className="borrowed">Borrowed By : </span>
+                                            <span className="borrow-item">{userRegular.full_name}</span><br/>
+                                            <span className="borrowed">Expected Return At   : </span>
+                                            <span className="borrow-item">{returnLimit}</span>
+                                        </Fragment>
+                                    }
                                 </Col>
-                                <Col>
+                                <Col md={3} className="text-right">
                                 { (bookDetail.availability == "Available") ? 
                                     <h4 style={{color:"#99D815"}}>{bookDetail.availability}</h4>
                                 : <h4 style={{color:"red"}}>{bookDetail.availability}</h4>}
@@ -152,18 +218,19 @@ class BookDetail extends Component {
                 </Container>
 
                 <ModalEditBook
-                id_book={bookDetail.id_book}
-                title={bookDetail.title}
-                description={bookDetail.description}
-                image={bookDetail.image}
-                date_released={bookDetail.date_released}
-                id_genre={bookDetail.id_genre}
-                id_status={bookDetail.id_status}
+                id_book={id_book}
+                bookDetail={bookDetail}
                 open={this.state.openModalEdit}
                 history={this.props.history} hide={() => this.setState({openModalEdit: false})} />
 
-                <ModalDelete title={bookDetail.title}
-                open={this.state.openModalDelete} hide={() => this.setState({openModalDelete: false})} />
+                <ModalDelete 
+                title={bookDetail.title}
+                open={this.state.openModalDelete} 
+                hide={() => this.setState({openModalDelete: false})} 
+                delete={() => this.DeleteBook} />
+                <SweetAlert success title="Deleted!" show={this.state.showSuccessModal} showConfirm={false} >
+                    Book has been deleted!
+                </SweetAlert>
 
                 <ModalBorrow 
                 open={this.state.modalBorrow} 
@@ -171,17 +238,16 @@ class BookDetail extends Component {
                 id_book={this.state.id_book}
                 onSubmit={this.handleSubmit}
                 setAvailability={this.setAvailability}/>
+
+                <SweetAlert success showCloseButton title="Success!" show={this.state.showReturnModal} showConfirm={false}>
+                    Successful book returning
+                </SweetAlert>
             </React.Fragment>
         )
     }
 }
 
 // styling
-const menu = {
-    color:'#FFF',
-    textDecoration:"none"
-}
-
 const cover = { 
     width: '10rem',
     marginLeft:"30vh",

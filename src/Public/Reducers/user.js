@@ -1,5 +1,6 @@
 const initState = {
     userProfile:{},
+    userId:{},
     errMsg:'',
     isLoading:false,
     isRejected:false,
@@ -68,6 +69,26 @@ const user = (state = initState, action)=>{
                 isLoading:false,
                 isFulfilled:true,
                 userProfile: action.payload.data
+            }
+        case 'GET_USERID_PENDING':
+            return{
+                ...state,
+                isLoading:true,
+                isRejected:false,
+                isFulfilled:false,
+            }
+        case 'GET_USERID_REJECTED':
+            return{
+                ...state,
+                isLoading:false,
+                isRejected:true,
+            }
+        case 'GET_USERID_FULFILLED':
+            return{
+                ...state,
+                isLoading:false,
+                isFulfilled:true,
+                userId: action.payload.data.values
             }
       default:
         return state

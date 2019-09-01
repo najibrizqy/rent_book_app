@@ -13,12 +13,7 @@ const ModalEditBook = (props) => {
             <Modal.Body>
                 <FormEdit
                 id_book={props.id_book}
-                title={props.title}
-                description={props.description}
-                image={props.image}
-                date_released={props.date_released}
-                id_genre={props.id_genre}
-                id_status={props.id_status}
+                bookDetail={props.bookDetail}
                 history={props.history}/>
             </Modal.Body>
         </Modal>

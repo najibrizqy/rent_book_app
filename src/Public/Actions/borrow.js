@@ -23,6 +23,18 @@ export const returnBook = (data, id) => {
     }
 }
 
+export const getHistory = (id) => {
+  return{
+      type: 'HISTORY_BORROW',
+      payload: Axios.get(`http://localhost:8016/rent_book/history/${id}`,{
+          headers:{
+            Authorization : window.localStorage.getItem("token")
+          }
+        }
+      )
+  }
+}
+
 export const getBorrowedBook = (id) => {
   return{
       type: 'BORROWED_BOOK',

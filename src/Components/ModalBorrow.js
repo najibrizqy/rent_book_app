@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {Container, Button, Modal, Form} from 'react-bootstrap';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 import {borrowBook} from '../Public/Actions/borrow';
 
@@ -11,7 +12,11 @@ class ModalBorrow extends Component {
             formData: {
                 id_book : props.id_book,
                 id_user : null
-            }
+            },
+            resModal: false,
+            Msg: '',
+            status: '',
+            titleModal: ''
         }
     }
 
@@ -29,11 +34,31 @@ class ModalBorrow extends Component {
     handleSubmit = async (e) => {
         e.preventDefault()
         await this.props.dispatch(borrowBook(this.state.formData))
-        this.props.hide()
-        this.props.setAvailability()
+        .then(res =>{
+            this.setState({
+                resModal:true,
+                Msg: 'Successful book borrowing',
+                status: 'success',
+                titleModal: 'Success'
+            })
+            this.props.setAvailability()
+            this.props.hide()
+          })
+          .catch(() => {
+            this.setState({
+                resModal:true,
+                Msg: this.props.borrow.errMsg,
+                status: 'danger',
+                titleModal: 'Warning!'
+            })
+          })
     }
 
     render(){
+        let borrow = new Date()
+        borrow.setDate(borrow.getDate() + 7)
+        let return_limit = new Date(borrow).toLocaleString()
+        const {resModal, Msg, status, titleModal} = this.state
         return(
             <Fragment>
                 <Modal size="sm" show={this.props.open} onHide={this.props.hide}>
@@ -47,10 +72,17 @@ class ModalBorrow extends Component {
                                     <Form.Label>ID Card User</Form.Label>
                                     <Form.Control type="number" name="id_user" placeholder="Enter ID Card User" onChange={this.handleChange} />
                                 </Form.Group>
-
                                 <Form.Group controlId="formBasicPassword">
                                     <Form.Label>ID Book</Form.Label>
                                     <Form.Control type="number" name="id_book" defaultValue={this.props.id_book} readOnly/>
+                                </Form.Group>
+                                <Form.Group controlId="formBasicPassword">
+                                    <Form.Label>Borrow At</Form.Label>
+                                    <Form.Control type="text" name="borrow_at" value={new Date().toLocaleString()} readOnly/>
+                                </Form.Group>
+                                <Form.Group controlId="formBasicPassword">
+                                    <Form.Label>Return Limit</Form.Label>
+                                    <Form.Control type="text" name="return_at" value={return_limit} readOnly/>
                                 </Form.Group>
                             </Container>
                             <Button type="submit" variant="warning" className="btn-save float-right mt-3">
@@ -59,6 +91,9 @@ class ModalBorrow extends Component {
                         </Form>
                     </Modal.Body>
                 </Modal>
+                <SweetAlert type={status} showCloseButton title={titleModal} show={resModal} onConfirm={() => this.setState({resModal: false})}>
+                    {Msg}
+                </SweetAlert>
             </Fragment>
         )
     }
