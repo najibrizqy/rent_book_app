@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 01, 2019 at 03:44 PM
+-- Generation Time: Sep 01, 2019 at 04:32 PM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.6
 
@@ -46,7 +46,7 @@ CREATE TABLE `books` (
 
 INSERT INTO `books` (`id_book`, `title`, `description`, `image`, `date_released`, `id_genre`, `id_status`, `created_at`, `updated_at`) VALUES
 (1, 'Kata', 'Kata, bercerita tentang Nugraha, Biru, dan Binta yang kian menjauh tanpa pernah menjelaskan perasaan satu sama lain. Mereka harus bicara dan mulai membuka hati, dan mengungkapkan isi hati agar persahabatan mereka sempurna kembali dari luka karena cinta.', 'https://www.gramedia.com/blog/content/images/2018/12/Kata-Rintik-Sedu-1.jpg', '2018-04-12', 4, 1, '2019-08-16 16:05:21', '2019-08-29 14:17:10'),
-(2, 'Garis Waktu: Sebuah Perjalanan Menghapus Luka', 'Setelah Konspirasi Alam Semesta, Karya kedua dari Fiersa Besari yang berisikan kumpulan cerita yang saling berkaitan ini merupakan memoar hati yang dirangkai indah lengkap dengan rima yang menarik oleh si penulis yang juga seorang penyanyi ini. Dibuat seolah bermonolog, membuat kisah di dalamnya memiliki daya tarik tersendiri.', 'https://i2.wp.com/bukubabad.com/wp-content/uploads/2018/12/Garis-Waktu-1.jpg?fit=600%2C600', '2019-04-12', 5, 2, '2019-08-16 16:06:21', '2019-08-16 16:06:21'),
+(2, 'Garis Waktu: Sebuah Perjalanan Menghapus Luka', 'Setelah Konspirasi Alam Semesta, Karya kedua dari Fiersa Besari yang berisikan kumpulan cerita yang saling berkaitan ini merupakan memoar hati yang dirangkai indah lengkap dengan rima yang menarik oleh si penulis yang juga seorang penyanyi ini. Dibuat seolah bermonolog, membuat kisah di dalamnya memiliki daya tarik tersendiri.', 'https://i2.wp.com/bukubabad.com/wp-content/uploads/2018/12/Garis-Waktu-1.jpg?fit=600%2C600', '2019-04-12', 5, 1, '2019-08-16 16:06:21', '2019-08-16 16:06:21'),
 (5, 'One Punch Man', 'Botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak botak ', 'https://static0.srcdn.com/wordpress/wp-content/uploads/2019/08/One-Punch-Man-Road-to-Hero-Key-Art.jpg', '2018-08-10', 3, 1, '2019-08-16 16:14:16', '2019-08-16 16:14:16'),
 (6, 'ANAK SEMUA BANGSA', 'Lanjutan dari Bumi Manusia, novel Anak Semua Bangsa masih bercerita tentang Minke tapi lebih menceritakan tentang kondisi negara Indonesia di tahun 1898-1918. Semasa penjajahan Hindia Belanda, rakyat Indonesia mengalami penderitaan. Mereka ditindas, diteror, dan dipaksa untuk memberikan tanahnya kepada bangsa Belanda.', 'http://1.bp.blogspot.com/-rFfqpW7igG8/T_Y2mVCiyxI/AAAAAAAAAbA/wSOjRFpVJc4/s1600/anak+semua+bangsa.jpg', '2015-08-10', 7, 1, '2019-08-17 05:47:23', '2019-08-17 05:47:23'),
 (7, 'Ronggeng Dukuh Paruk', 'Lanjutan dari Bumi Manusia, novel Anak Semua Bangsa masih bercerita tentang Minke tapi lebih menceritakan tentang kondisi negara Indonesia di tahun 1898-1918. Semasa penjajahan Hindia Belanda, rakyat Indonesia mengalami penderitaan. Mereka ditindas, diteror, dan dipaksa untuk memberikan tanahnya kepada bangsa Belanda.', 'https://scontent-cdg2-1.cdninstagram.com/vp/fe32b5d68524ea3b0c2b728932cc412d/5DBD0F14/t51.2885-15/e35/65272118_2129437803834218_1310656860483878727_n.jpg?_nc_ht=scontent-cdg2-1.cdninstagram.com&se=7&ig_cache_key=MjA3MTgzMzEwMDMzODE5ODk2MA%3D%3D.2', '2016-08-10', 6, 2, '2019-08-17 05:49:13', '2019-08-17 05:49:13'),
@@ -175,7 +175,7 @@ INSERT INTO `transaction` (`id`, `id_user`, `id_book`, `rent_at`, `return_at`) V
 (16, 8, 20, '2019-08-31 12:26:51', '2019-08-31 12:27:06'),
 (17, 3, 1, '2019-08-31 18:19:11', '2019-09-01 12:17:08'),
 (18, 8, 2, '2019-08-31 18:19:57', '2019-08-31 18:19:58'),
-(20, 8, 2, '2019-09-01 11:28:32', '2019-09-01 13:23:29'),
+(20, 8, 2, '2019-09-01 11:28:32', '2019-09-01 21:23:20'),
 (21, 3, 20, '2019-09-01 11:28:42', '2019-09-01 11:35:00'),
 (22, 2, 20, '2019-09-01 12:32:31', '2019-09-01 12:53:10'),
 (23, 8, 20, '2019-09-01 15:53:03', '2019-09-01 16:06:34'),
@@ -184,7 +184,10 @@ INSERT INTO `transaction` (`id`, `id_user`, `id_book`, `rent_at`, `return_at`) V
 (26, 8, 20, '2019-09-01 16:09:30', '2019-09-01 16:11:29'),
 (27, 2, 20, '2019-09-01 16:11:35', '2019-09-01 16:23:01'),
 (28, 10, 2, '2019-09-01 16:32:34', NULL),
-(29, 10, 20, '2019-09-01 16:43:27', '2019-09-01 16:44:31');
+(29, 10, 20, '2019-09-01 16:43:27', '2019-09-01 16:44:31'),
+(30, 10, 20, '2019-09-01 21:09:16', '2019-09-01 21:24:29'),
+(31, 10, 34, '2019-09-01 21:26:14', '2019-09-01 21:27:18'),
+(32, 10, 20, '2019-09-01 21:27:37', '2019-09-01 21:27:41');
 
 --
 -- Triggers `transaction`
@@ -307,7 +310,7 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -2,7 +2,7 @@ import Axios from 'axios'
 export const borrowBook = (data) => {
     return{
         type: 'BORROW_BOOK',
-        payload: Axios.post(`http://localhost:8016/rent_book/`,data,{
+        payload: Axios.post(`${process.env.REACT_APP_HOST}/rent_book/`,data,{
             headers:{
               Authorization : window.localStorage.getItem("token")
             }
@@ -14,7 +14,7 @@ export const borrowBook = (data) => {
 export const returnBook = (data, id) => {
     return{
         type: 'RETURN_BOOK',
-        payload: Axios.patch(`http://localhost:8016/rent_book/${id}`,data,{
+        payload: Axios.patch(`${process.env.REACT_APP_HOST}/rent_book/${id}`,data,{
             headers:{
               Authorization : window.localStorage.getItem("token")
             }
@@ -26,7 +26,7 @@ export const returnBook = (data, id) => {
 export const getHistory = (id) => {
   return{
       type: 'HISTORY_BORROW',
-      payload: Axios.get(`http://localhost:8016/rent_book/history/${id}`,{
+      payload: Axios.get(`${process.env.REACT_APP_HOST}/rent_book/history/${id}`,{
           headers:{
             Authorization : window.localStorage.getItem("token")
           }
