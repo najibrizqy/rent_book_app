@@ -46,7 +46,6 @@ class BooksList extends Component{
 
   render(){
     const {data, currentPage, totalPage} = this.state
-    console.log("COK", data)
     return(
       <Fragment>
         <Row className="mb-4 mt-4 book-list">
