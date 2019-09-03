@@ -86,7 +86,12 @@ class Home extends React.Component{
                 
                 {/* Menu */}
                 <div style={{marginTop:"6vh", marginLeft:"4vh"}}>
-                    <h6 style={link} onClick={() => this.props.history.push(`/home/explore`)}>
+                    <h6 style={link} onClick={
+                        () => {
+                          this.props.history.push(`/home/explore`)
+                          this.onSetSidebarOpen(false)
+                        }
+                      }>
                       <FontAwesomeIcon icon={faSearch} className="mr-4"/>Explore
                     </h6><br />
                     {
@@ -96,13 +101,18 @@ class Home extends React.Component{
                       </Fragment>
                       : 
                       <Fragment>
-                        <h6 style={link} onClick={() => this.props.history.push(`/home/history/`)}><FontAwesomeIcon icon={faHistory} className="mr-4" />History</h6><br />
+                        <h6 style={link} onClick={() => {
+                            this.props.history.push(`/home/history/`)
+                            this.onSetSidebarOpen(false)
+                          }
+                        }><FontAwesomeIcon icon={faHistory} className="mr-4" />History</h6><br />
                       </Fragment>
                     }
                     <h6 style={link} onClick={this.Logout}><FontAwesomeIcon icon={faSignOutAlt} className="mr-4"/>Log out</h6>
                 </div>
             </div>
         )
+        
         return (
             <div style={{overflowX:'hidden'}}>
                 <Sidebar
@@ -177,7 +187,7 @@ const stylingSideBar = {
   sidebar: { 
       background: "white",
       width: '45vh',
-      position: 'fixed'
+      position: 'fixed',
   }
 }
 

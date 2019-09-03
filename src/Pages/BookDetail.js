@@ -149,11 +149,9 @@ class BookDetail extends Component {
                 <Container className="detail-container">
                     <Row className="image-header" style={{backgroundImage:`url(${bookDetail.image})`,padding:"0px"}}>
                         <Col md={9}>
-                            <Link to='../home'>
-                                <Button variant="light" className="btn-back">
-                                    <FontAwesomeIcon icon={faArrowLeft} />
-                                </Button>
-                            </Link>
+                            <Button variant="light" className="btn-back" onClick={() => this.props.history.goBack()}>
+                                <FontAwesomeIcon icon={faArrowLeft} />
+                            </Button>
                         </Col>
                         {
                             user.level == "admin" ? 
@@ -176,7 +174,9 @@ class BookDetail extends Component {
                                             ""
                                         :
                                         user.id == userRegular.id_user ?
-                                            ""
+                                        <Fragment>
+                                            <span className="borrowed">Don't forget maximum book return at {returnLimit}</span>
+                                        </Fragment>
                                         :
                                         <Fragment>
                                             <span className="borrowed">Borrowed By : </span>
