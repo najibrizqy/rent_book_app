@@ -11,7 +11,7 @@ import TimeDropdown from '../Components/TimeDropdown';
 
 const NavigationBar = (props) => {
     return(
-        <Navbar bg="light" expand="lg" style={{boxShadow:'0px 4px 10px rgba(0, 0, 0, 0.25)'}}>
+        <Navbar bg="light" expand="lg" className="navbarHome">
             <Navbar.Brand style={{cursor: 'pointer'}}>
                 <FontAwesomeIcon icon={faBars} onClick={props.openSideBar}/>
             </Navbar.Brand>

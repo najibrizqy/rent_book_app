@@ -4,7 +4,6 @@ import books from './books';
 import genres from './genres';
 import years from './years';
 import user from './user';
-import status from './status';
 import borrow from './borrow';
 
 const appReducer = combineReducers ({
@@ -12,7 +11,6 @@ const appReducer = combineReducers ({
   genres,
   years,
   user,
-  status,
   borrow,
 });
 

@@ -1,11 +1,11 @@
 import React, {Component, Fragment} from 'react';
 import {Button, Container, Row, Col, Form, Modal} from 'react-bootstrap';
 import {connect} from 'react-redux';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 import {addBook} from '../Public/Actions/books';
 import {getGenres} from '../Public/Actions/genres';
 import '../Css/style.css';
-import check from '../check.png';
 
 class ModalAddBook extends Component {
     constructor(props){
@@ -15,11 +15,12 @@ class ModalAddBook extends Component {
             formData:{
                 title: '',
                 description:'',
-                image:'',
-                date_released: new Date(),
+                date_released: new Date().toISOString().split('T')[0],
                 id_genre:'1',
             },
+            image: {},
             resModal: false,
+            msg: ''
         }
     }
 
@@ -41,12 +42,45 @@ class ModalAddBook extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
-        await this.props.dispatch(addBook(this.state.formData))
-        this.props.hide();
-        this.resModalShow(true)
-        setTimeout(() => {
-            this.resModalShow(false)
-        }, 3000);
+        let formData = new FormData()
+        const data = this.state.formData
+        formData.append('title', data.title)
+        formData.append('image', this.state.image)
+        formData.append('description', data.description)
+        formData.append('date_released', data.date_released)
+        formData.append('id_genre', data.id_genre)
+        console.log(formData)
+        await this.props.dispatch(addBook(formData))
+        .then(() => {
+            const level = this.props.level;
+            if(level == "admin"){
+                this.props.hide();
+                this.setState({
+                    msg: `Data ${this.state.formData.title} successfully added.`
+                })
+                this.resModalShow(true)
+                setTimeout(() => {
+                    this.resModalShow(false)
+                }, 3000);  
+            }else{
+                this.props.hide();
+                this.setState({
+                    msg: `Please wait until book confirmed.`
+                })
+                this.resModalShow(true)
+                setTimeout(() => {
+                    this.resModalShow(false)
+                }, 3000);  
+            }
+        })
+        .catch(() => {
+            alert("GAGAL")
+        })
+    }
+
+    handleImage = (e) => {
+        const files = Array.from(e.target.files)
+        this.setState({image:files[0]})
     }
 
     componentDidMount = async () => {
@@ -57,7 +91,7 @@ class ModalAddBook extends Component {
     };
 
     render(){
-        const {genreList} = this.state
+        const {genreList, msg} = this.state
         return(
             <Fragment>
                 <Modal size="lg" show={this.props.open} onHide={this.props.hide}>
@@ -76,7 +110,7 @@ class ModalAddBook extends Component {
                                 <Row className="mb-4">
                                     <Col md={2}>Image Url</Col>
                                     <Col md={10}>
-                                        <Form.Control name="image" type="text" placeholder="Image Url..." onChange={this.handleChange} required/>
+                                        <Form.Control name="image" type="file" placeholder="Image Url..." onChange={this.handleImage} required/>
                                     </Col>
                                 </Row>
                                 <Row className="mb-4">
@@ -112,7 +146,7 @@ class ModalAddBook extends Component {
                 </Modal>
         
                 {/* Response Modal */}
-                <Modal show={this.state.resModal} onHide={() => this.setState({resModal: false})}>
+                {/* <Modal show={this.state.resModal} onHide={() => this.setState({resModal: false})}>
                     <Modal.Header className="modal-header" closeButton style={{borderBottom:"none"}}>
                         <Modal.Title></Modal.Title>
                     </Modal.Header>
@@ -124,7 +158,10 @@ class ModalAddBook extends Component {
                     </Modal.Body>
                     <Modal.Footer style={{borderTop:"none"}}>
                     </Modal.Footer>
-                </Modal>
+                </Modal> */}
+                <SweetAlert success showCloseButton title="Success!" show={this.state.resModal} showConfirm={false}>
+                    {msg}
+                </SweetAlert>
             </Fragment>
         )
     }
