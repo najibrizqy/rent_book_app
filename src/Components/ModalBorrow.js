@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Container, Button, Modal, Form} from 'react-bootstrap';
 import SweetAlert from 'react-bootstrap-sweetalert';
 
-import {borrowBook} from '../Public/Actions/borrow';
+import {borrowBook, borrowBookByUser} from '../Public/Actions/borrow';
 
 class ModalBorrow extends Component {
     constructor(props){
@@ -31,9 +31,12 @@ class ModalBorrow extends Component {
         }, () => {console.log(this.state.formData)})
       }
 
-    handleSubmit = async (e) => {
+    handleSubmit = async (e, level) => {
         e.preventDefault()
-        await this.props.dispatch(borrowBook(this.state.formData))
+        console.log("ANJAY", level)
+        const functionSubmit = level == "admin" ? borrowBook : borrowBookByUser
+        
+        await this.props.dispatch(functionSubmit(this.state.formData))
         .then(res =>{
             this.setState({
                 resModal:true,
@@ -41,17 +44,18 @@ class ModalBorrow extends Component {
                 status: 'success',
                 titleModal: 'Success'
             })
-            this.props.setAvailability()
+            
+            level == "admin" ? this.props.setAvailability(2) : this.props.setAvailability(4)
             this.props.hide()
           })
-          .catch(() => {
+        .catch(() => {
             this.setState({
                 resModal:true,
                 Msg: this.props.borrow.errMsg,
                 status: 'danger',
                 titleModal: 'Warning!'
             })
-          })
+        })
     }
 
     render(){
@@ -59,6 +63,8 @@ class ModalBorrow extends Component {
         borrow.setDate(borrow.getDate() + 7)
         let return_limit = new Date(borrow).toLocaleString()
         const {resModal, Msg, status, titleModal} = this.state
+        const isUser = this.props.isUser;
+        console.log("DATAT",isUser)
         return(
             <Fragment>
                 <Modal size="sm" show={this.props.open} onHide={this.props.hide}>
@@ -66,11 +72,11 @@ class ModalBorrow extends Component {
                         <Modal.Title>Borrow Book</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Form onSubmit={this.handleSubmit}>
+                        <Form onSubmit={e => this.handleSubmit(e, isUser.level)}>
                             <Container>
                                 <Form.Group controlId="formBasicIdUser">
                                     <Form.Label>ID Card User</Form.Label>
-                                    <Form.Control type="number" name="id_user" placeholder="Enter ID Card User" onChange={this.handleChange} />
+                                    <Form.Control type="number" name="id_user" placeholder="Enter ID Card User" onChange={this.handleChange} defaultValue={isUser.level == "user" ? isUser.id : ''} readOnly={isUser.level == "user" ? true : false} />
                                 </Form.Group>
                                 <Form.Group controlId="formBasicPassword">
                                     <Form.Label>ID Book</Form.Label>

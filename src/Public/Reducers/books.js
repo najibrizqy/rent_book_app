@@ -1,6 +1,8 @@
 const initialState = {
     booksList: [],
     booksNewRelease: [],
+    booksDonate: [],
+    booksOrder: [],
     isLoading: false,
     isFulfilled: false,
     isRejected: false,
@@ -28,7 +30,7 @@ const initialState = {
           isFulfilled: true,
           booksList: action.payload.data,
         };
-        case 'GET_BOOKS_NEW_RELEASE_PENDING':
+      case 'GET_BOOKS_NEW_RELEASE_PENDING':
         return{
           ...state,
           isLoading:true,
@@ -47,6 +49,47 @@ const initialState = {
           isLoading:false,
           isFulfilled:true,
           booksNewRelease: action.payload.data.values,
+        };
+      case 'GET_BOOKS_DONATE_PENDING':
+        return {
+          ...state,
+          isLoading: true,
+          isFulfilled: false,
+          isRejected: false,
+        };
+      case 'GET_BOOKS_DONATE_REJECTED':
+        return {
+          ...state,
+          isLoading: false,
+          isRejected: true,
+        };
+      case 'GET_BOOKS_DONATE_FULFILLED':
+        return {
+          ...state,
+          isLoading: false,
+          isFulfilled: true,
+          booksDonate: action.payload.data.values,
+        };
+      case 'GET_BOOKS_ORDER_PENDING':
+        return {
+          ...state,
+          isLoading: true,
+          isFulfilled: false,
+          isRejected: false,
+        };
+      case 'GET_BOOKS_ORDER_REJECTED':
+        return {
+          ...state,
+          isLoading: false,
+          isRejected: true,
+          booksOrder: null,
+        };
+      case 'GET_BOOKS_ORDER_FULFILLED':
+        return {
+          ...state,
+          isLoading: false,
+          isFulfilled: true,
+          booksOrder: action.payload.data.values,
         };
       case 'GET_BOOK_DETAIL_PENDING':
         return{
@@ -120,6 +163,25 @@ const initialState = {
           isRejected:true,
         }
       case 'DELETE_BOOK_FULFILLED':
+        return{
+          ...state,
+          isLoading:false,
+          isFulfilled:true,
+        }
+      case 'CONFIRM_BOOK_PENDING':
+        return{
+          ...state,
+          isLoading:true,
+          isRejected:false,
+          isFulfilled:false,
+        }
+      case 'CONFIRM_BOOK_REJECTED':
+        return{
+          ...state,
+          isLoading:false,
+          isRejected:true,
+        }
+      case 'CONFIRM_BOOK_FULFILLED':
         return{
           ...state,
           isLoading:false,

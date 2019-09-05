@@ -62,9 +62,10 @@ class BookDetail extends Component {
         }, 3000);
     }
 
-    setAvailability = () => {
+    setAvailability = (id) => {
+        const available = id == 2 ? "Not Available" : "Ordered"
         this.setState({
-            bookDetail : {...this.state.bookDetail, id_status: 2, availability: "Not Available"},
+            bookDetail : {...this.state.bookDetail, id_status: id, availability: available},
         })
         this.getBorrowedBook()
     }
@@ -166,7 +167,7 @@ class BookDetail extends Component {
         "July", "August", "September", "October", "November", "December"][getDate.getMonth()];
         const date_released = ('0' + (getDate.getDate())).slice(-2) + ' ' + month + ' ' + getDate.getFullYear();
         
-        const UserId = user.id == userRegular.id_user;
+        const UserId = user.id == userRegular.id_user; // if Login by User
 
         return(
             <React.Fragment>
@@ -249,7 +250,12 @@ class BookDetail extends Component {
                                 :    <Fragment>
                                         <Button variant="warning" className="float-right btn-borrow" onClick={() => this.returnBook()}><b>Return</b></Button><br/>
                                     </Fragment>
+                            : (bookDetail.availability == "Available") ? 
+                                <Fragment>
+                                    <Button variant="warning" className="float-right btn-borrow" onClick={() => this.modalBorrow(true)}><b>Borrow</b></Button><br/>
+                                </Fragment>
                             : ""
+                            
                         }
                             
                         </Col>
@@ -275,6 +281,7 @@ class BookDetail extends Component {
                 open={this.state.modalBorrow} 
                 hide={() => this.setState({modalBorrow: false})}
                 id_book={this.state.id_book}
+                isUser={user}
                 onSubmit={this.handleSubmit}
                 setAvailability={this.setAvailability}/>
 

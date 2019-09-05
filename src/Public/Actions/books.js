@@ -1,6 +1,5 @@
 import Axios from 'axios';
 
-
 export const getBooks = (Source, search, page) => {
   let url = `${Source}?page=${page}`
   if(search !== null && search !== undefined)
@@ -76,6 +75,18 @@ export const editBook = (data, id) => {
   return {
     type:'EDIT_BOOK',
     payload: Axios.patch(`${process.env.REACT_APP_HOST}/books/${id}`, data, {
+        headers:{
+          Authorization : localStorage.getItem("token")
+        }
+      }
+    )
+  }
+}
+
+export const confirmBook = (data, id) => {
+  return {
+    type:'CONFIRM_BOOK',
+    payload: Axios.patch(`${process.env.REACT_APP_HOST}/books/confirm/${id}`, data, {
         headers:{
           Authorization : localStorage.getItem("token")
         }

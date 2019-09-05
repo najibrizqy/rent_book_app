@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import Sidebar from "react-sidebar";
 import { Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faSearch, faHistory, faBookMedical, faSignOutAlt, faFileUpload } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSearch, faHistory, faBookMedical, faSignOutAlt, faClipboard, faListAlt } from '@fortawesome/free-solid-svg-icons';
 import {Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 
@@ -14,7 +14,9 @@ import BooksList from '../Components/BooksList';
 import Navbar from '../Components/Navbar';
 import BookCarousel from '../Components/BookCarousel';
 import ModalAddBook from '../Components/ModalAddBook';
-import History from '../Components/History';
+import History from './History';
+import BooksDonate from './BooksDonate';
+import BooksOrder from './BooksOrder';
 
 class Home extends React.Component{
     constructor() {
@@ -97,7 +99,7 @@ class Home extends React.Component{
                       <Col sm={1}>
                         <FontAwesomeIcon icon={faSearch}/>
                       </Col>
-                      <Col sm={10}>
+                      <Col sm={9}>
                         <span className='pl-3'>Explore</span>
                       </Col>
                     </Row>
@@ -108,16 +110,32 @@ class Home extends React.Component{
                           <Col sm={1}>
                             <FontAwesomeIcon icon={faBookMedical}/>
                           </Col>
-                          <Col sm={10}>
+                          <Col sm={9}>
                             <span className='pl-3'>Add Book</span>
                           </Col>
                         </Row>
-                        <Row style={link}  onClick={() => this.openModalAddBook(true)}>
+                        <Row style={link} onClick={() => {
+                              this.props.history.push(`/home/donate_books`)
+                              this.onSetSidebarOpen(false)
+                            }
+                          }>
                           <Col sm={1}>
-                            <FontAwesomeIcon icon={faBookMedical}/>
+                            <FontAwesomeIcon icon={faClipboard}/>
                           </Col>
-                          <Col sm={10}>
-                            <span className='pl-3'>Request Book</span>
+                          <Col sm={9}>
+                            <span className='pl-3'>List Donate Book</span>
+                          </Col>
+                        </Row>
+                        <Row style={link}  onClick={() => {
+                              this.props.history.push(`/home/ordered_books`)
+                              this.onSetSidebarOpen(false)
+                            }
+                          }>
+                          <Col sm={1}>
+                            <FontAwesomeIcon icon={faListAlt}/>
+                          </Col>
+                          <Col sm={9}>
+                            <span className='pl-3'>List Borrowing</span>
                           </Col>
                         </Row>
                       </Fragment>
@@ -127,7 +145,7 @@ class Home extends React.Component{
                           <Col sm={1}>
                             <FontAwesomeIcon icon={faBookMedical}/>
                           </Col>
-                          <Col sm={10}>
+                          <Col sm={9}>
                             <span className='pl-3'>Donate Book</span>
                           </Col>
                         </Row>
@@ -139,7 +157,7 @@ class Home extends React.Component{
                           <Col sm={1}>
                             <FontAwesomeIcon icon={faHistory}/>
                           </Col>
-                          <Col sm={10}>
+                          <Col sm={9}>
                             <span className='pl-3'>History</span>
                           </Col>
                         </Row>
@@ -149,7 +167,7 @@ class Home extends React.Component{
                       <Col sm={1}>
                         <FontAwesomeIcon icon={faSignOutAlt}/>
                       </Col>
-                      <Col sm={10}>
+                      <Col sm={9}>
                         <span className='pl-3'>Log out</span>
                       </Col>
                     </Row>
@@ -205,6 +223,28 @@ class Home extends React.Component{
                     }} 
                   />
                   <Route 
+                    path="/home/donate_books" 
+                    exact={true}
+                    render={({history}) => {
+                      return(
+                        <Fragment>
+                          <BooksDonate key={window.location.href} history={history} />
+                        </Fragment>
+                      );
+                    }} 
+                  />
+                  <Route 
+                    path="/home/ordered_books" 
+                    exact={true}
+                    render={({history}) => {
+                      return(
+                        <Fragment>
+                          <BooksOrder key={window.location.href} history={history} />
+                        </Fragment>
+                      );
+                    }} 
+                  />
+                  <Route 
                     path="/home/genre/:genre"
                     component={(url) => {
                       return <BooksList key={window.location.href} Source={`${process.env.REACT_APP_HOST}/books/genre/${url.match.params.genre}`} history={url.history} />;
@@ -235,6 +275,7 @@ const stylingSideBar = {
       background: "white",
       width: '45vh',
       position: 'fixed',
+      overflowX: 'hidden'
   }
 }
 

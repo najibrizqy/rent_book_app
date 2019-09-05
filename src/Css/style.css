@@ -451,3 +451,36 @@ src: local('Airbnb Cereal App Medium'), url('AirbnbCerealMedium.woff') format('w
 .historyTable{
     margin-top: 30px
 }
+
+.emptyDonate{
+    margin-top: 90px
+}
+
+.img-donate{
+    width: 120px;
+    height: 160px;
+}
+
+.wd-no{
+    width: 30px;
+}
+
+.wd-title{
+    width: 200px;
+}
+
+.wd-des{
+    width: 300px;
+}
+
+.wd-genre{
+    width: 130px;
+}
+
+.wd-donate{
+    width: 110px;
+}
+
+.wd-action{
+    width: 175px;
+}
