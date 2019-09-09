@@ -62,6 +62,7 @@ const initialState = {
           ...state,
           isLoading: false,
           isRejected: true,
+          booksDonate: []
         };
       case 'GET_BOOKS_DONATE_FULFILLED':
         return {
@@ -82,7 +83,7 @@ const initialState = {
           ...state,
           isLoading: false,
           isRejected: true,
-          booksOrder: null,
+          booksOrder: [],
         };
       case 'GET_BOOKS_ORDER_FULFILLED':
         return {

@@ -35,7 +35,7 @@ class BooksList extends Component{
     this.getBookList(1)
   }
 
-   getBookList = async (page) =>{
+  getBookList = async (page) =>{
     await this.props.dispatch (getBooks (this.state.Source, this.props.search, page));
     this.setState ({
       data: this.props.books.booksList.values,

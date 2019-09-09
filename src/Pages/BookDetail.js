@@ -96,7 +96,7 @@ class BookDetail extends Component {
             borrowedBook: this.props.borrow.borrowedBook,
             showConfirmModal: true
         });
-        this.setAvailability();
+        this.setAvailability(2);
         setTimeout(() => {
             this.setState({
                 showConfirmModal: false

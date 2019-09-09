@@ -37,12 +37,14 @@ class OrderAction extends Component {
                 msg: 'Request has been confirmed!',
                 SuccessModal: true
             })
-            this.props.setDataOrder()
             setTimeout(() => {
                 this.setState({
                     SuccessModal: false
                 })
             }, 3000);
+            setInterval(() => {
+                this.props.setDataOrder()
+            }, 3000)
         })
     } 
 
@@ -59,12 +61,14 @@ class OrderAction extends Component {
                 msg: 'Request has been rejected!',
                 SuccessModal: true
             })
-            this.props.setDataOrder()
             setTimeout(() => {
                 this.setState({
                     SuccessModal: false
                 })
             }, 3000);
+            setInterval(() => {
+                this.props.setDataOrder()
+            }, 3000)
         })
     }
     render(){

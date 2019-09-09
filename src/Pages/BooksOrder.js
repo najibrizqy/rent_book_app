@@ -24,6 +24,11 @@ class BooksOrder extends Component {
                 data: this.props.books.booksOrder
             })
         })
+        .catch(() => {
+            this.setState({
+                data: this.props.books.booksOrder
+            })
+        })
     }
 
     componentDidMount =  () =>{

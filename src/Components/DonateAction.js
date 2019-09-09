@@ -30,12 +30,14 @@ class DonateAction extends Component {
                 msgSuccess: 'Book has been confirmed!',
                 showSuccessModal: true
             })
-            this.props.setData()
             setTimeout(() => {
                 this.setState({
                     showSuccessModal: false
                 })
-            }, 3000);
+            }, 3000)
+            setInterval(() => {
+                this.props.setData()
+            }, 3000)
         })
     } 
 
@@ -48,12 +50,15 @@ class DonateAction extends Component {
                 msgSuccess: 'Book has been rejected!',
                 showSuccessModal: true
             })
-            this.props.setData()
+            
             setTimeout(() => {
                 this.setState({
                     showSuccessModal: false
                 })
-            }, 3000);
+            }, 3000)
+            setInterval(() => {
+                this.props.setData()
+            }, 3000)
         })
     }
     

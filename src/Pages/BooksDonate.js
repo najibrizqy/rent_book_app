@@ -24,6 +24,11 @@ class BooksDonate extends Component {
                 data: this.props.books.booksDonate
             })
         })
+        .catch(() => {
+            this.setState({
+                data: this.props.books.booksDonate
+            })
+        })
     }
 
     componentDidMount =  () =>{
