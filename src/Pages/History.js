@@ -36,8 +36,8 @@ class History extends Component {
         const {data} = this.state
         return(
             <Fragment>
-                <Container className="mt-4">
-                    <Table striped bordered hover responsive>
+                <Container className="mt-5">
+                    <Table striped bordered hover responsive className="historyTable">
                         <thead>
                             <tr>
                                 <th>#</th>

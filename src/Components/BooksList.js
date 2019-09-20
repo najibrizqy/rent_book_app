@@ -35,7 +35,7 @@ class BooksList extends Component{
     this.getBookList(1)
   }
 
-   getBookList = async (page) =>{
+  getBookList = async (page) =>{
     await this.props.dispatch (getBooks (this.state.Source, this.props.search, page));
     this.setState ({
       data: this.props.books.booksList.values,
@@ -62,7 +62,7 @@ class BooksList extends Component{
                       <Card key={res.id_book} className="card-book radius-top" onClick={() => this.handleGetDetail(res.id_book)}>
                           <Card.Header className="header-card" style={radiusTop}>
                               <Card.Img variant="top" src={image} className="book-img radius-top"/>
-                              <span className={(res.availability == "Available") ? "available" : "not-available"}>{res.availability}</span>
+                              <span className={(res.availability == "Available") ? "available" :(res.availability == "Ordered") ? "ordered": "not-available"}>{res.availability}</span>
                               <span className="genre-label">{res.genre}</span>
                           </Card.Header>
                           <Card.Body>

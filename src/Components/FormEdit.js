@@ -3,7 +3,6 @@ import { Button, Container, Row, Col, Form} from 'react-bootstrap';
 import {connect} from 'react-redux';
 
 import { editBook } from '../Public/Actions/books';
-import { getStatus } from '../Public/Actions/status';
 import { getGenres } from '../Public/Actions/genres';
 import '../Css/style.css';
 
@@ -25,6 +24,13 @@ class FormEdit extends React.Component {
         }
     }
 
+    handleImage = (e) => {
+        const files = Array.from(e.target.files)
+        this.setState({
+            formData: {...this.state.formData, image:files[0]}
+        })
+    }
+
     handleChange = (e) => {
         let newFormData = {...this.state.formData}
         const target = e.target
@@ -39,8 +45,21 @@ class FormEdit extends React.Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
-        await this.props.dispatch (editBook(this.state.formData, this.state.id_book));
-        window.location.reload()
+        let formData = new FormData()
+        const data = this.state.formData
+        formData.append('title', data.title)
+        formData.append('image', data.image)
+        formData.append('description', data.description)
+        formData.append('date_released', data.date_released)
+        formData.append('id_genre', data.id_genre)
+        formData.append('id_status', data.id_status)
+        await this.props.dispatch (editBook(formData, this.state.id_book))
+        .then(() => {
+            window.location.reload()
+        })
+        .catch(() => {
+            alert("GAGAL")
+        })
     }
 
     componentDidMount = async () => {
@@ -48,16 +67,10 @@ class FormEdit extends React.Component {
         this.setState ({
             genreList: this.props.genres.genresList,
         });
-        
-        await this.props.dispatch (getStatus());
-        this.setState ({
-            statusList: this.props.status.statusList,
-        });
     };
 
     render(){
         const {genreList} = this.state
-        const {statusList} = this.state
         const {formData} = this.state
         const getdate = new Date(formData.date_released);
         const date = ('0' + (getdate.getDate())).slice(-2);
@@ -76,7 +89,7 @@ class FormEdit extends React.Component {
                     <Row className="mb-4">
                         <Col md={2}>Image Url</Col>
                         <Col md={10}>
-                            <Form.Control type="text" name="image" placeholder="Image Url..." onChange={this.handleChange} value={formData.image} required />
+                            <Form.Control type="file" name="image" placeholder="Image Url..." onChange={this.handleImage} />
                         </Col>
                     </Row>
                     <Row className="mb-4">
@@ -91,18 +104,6 @@ class FormEdit extends React.Component {
                             <Form.Control as="select" name="id_genre" value={formData.id_genre} onChange={this.handleChange} required >
                             {genreList.length !== 0 ? genreList.map((genre) => {
                                 return <option value={genre.id_genre} key={genre.id_genre}> {genre.name} </option>
-                                })
-                                :<option>Loading...</option>
-                            }
-                            </Form.Control>
-                        </Col>
-                    </Row>
-                    <Row className="mb-4">
-                        <Col md={2}>Status</Col>
-                        <Col md={10}>
-                            <Form.Control as="select" name="id_status" value={formData.id_status} onChange={this.handleChange} required >
-                            {statusList.length !== 0 ? statusList.map((status) => {
-                                return <option value={status.id_status} key={status.id_status}> {status.availability} </option>
                                 })
                                 :<option>Loading...</option>
                             }
@@ -127,7 +128,6 @@ class FormEdit extends React.Component {
 const mapStateToProps = (state) => {
     return{
       genres: state.genres,
-      status: state.status,
       books: state.books
     }
 }

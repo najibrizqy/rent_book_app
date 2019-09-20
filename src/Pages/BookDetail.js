@@ -2,13 +2,12 @@ import React, {Component, Fragment} from "react";
 import {Container, Row, Col, Button, Card} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import SweetAlert from 'react-bootstrap-sweetalert';
 
 import { getBookDetail, deleteBook } from '../Public/Actions/books';
 import { getProfile, getUserById } from '../Public/Actions/user';
-import { getBorrowedBook, returnBook } from '../Public/Actions/borrow';
+import { getBorrowedBook, returnBook, borrowBook } from '../Public/Actions/borrow';
 import '../Css/style.css';
 import ModalEditBook from '../Components/ModalEditBook';
 import ModalDelete from '../Components/ModalDelete';
@@ -24,12 +23,17 @@ class BookDetail extends Component {
             modalBorrow : false,
             showSuccessModal: false,
             showReturnModal: false,
+            showConfirmModal: false,
             bookDetail: [],
             userData: [],
             borrowedBook: [],
             userRegular:[],
             formData: {
                 return_at: new Date()
+            },
+            formConfirm: {
+                id_user: '',
+                id_book: '',
             },
             returnLimit:''
         }
@@ -58,9 +62,10 @@ class BookDetail extends Component {
         }, 3000);
     }
 
-    setAvailability = () => {
+    setAvailability = (id) => {
+        const available = id == 2 ? "Not Available" : "Ordered"
         this.setState({
-            bookDetail : {...this.state.bookDetail, id_status: 2, availability: "Not Available"},
+            bookDetail : {...this.state.bookDetail, id_status: id, availability: available},
         })
         this.getBorrowedBook()
     }
@@ -83,12 +88,30 @@ class BookDetail extends Component {
         }, 2000);
     }
 
+    confirmBook = async () => {
+        const id = this.state.id_book;
+
+        await this.props.dispatch (borrowBook(this.state.formConfirm));
+        this.setState ({
+            borrowedBook: this.props.borrow.borrowedBook,
+            showConfirmModal: true
+        });
+        this.setAvailability(2);
+        setTimeout(() => {
+            this.setState({
+                showConfirmModal: false
+            })
+        }, 2000);
+    }
+
     getUserId = async () =>{
+        const id = this.state.id_book;
         if(this.state.borrowedBook !== undefined){
             await this.props.dispatch (getUserById(this.state.borrowedBook.id_user));
             this.setState({
-                userRegular: this.props.user.userId[0]
-            })
+                userRegular: this.props.user.userId[0],
+                formConfirm: {...this.state.formConfirm, id_user: this.state.borrowedBook.id_user, id_book: id}
+            },() => {console.log(this.state)})
         }
     }
 
@@ -96,7 +119,7 @@ class BookDetail extends Component {
         const id = this.state.id_book;
         await this.props.dispatch (getBorrowedBook(id));
         await this.setState ({
-            borrowedBook: this.props.borrow.borrowedBook,
+            borrowedBook: this.props.borrow.borrowedBook
         });
         await this.getUserId()
         this.getReturnLimit()
@@ -144,6 +167,8 @@ class BookDetail extends Component {
         "July", "August", "September", "October", "November", "December"][getDate.getMonth()];
         const date_released = ('0' + (getDate.getDate())).slice(-2) + ' ' + month + ' ' + getDate.getFullYear();
         
+        const UserId = user.id == userRegular.id_user; // if Login by User
+
         return(
             <React.Fragment>
                 <Container className="detail-container">
@@ -172,24 +197,36 @@ class BookDetail extends Component {
                                     {
                                         bookDetail.availability == "Available" ?
                                             ""
-                                        :
-                                        user.id == userRegular.id_user ?
-                                        <Fragment>
-                                            <span className="borrowed">Don't forget maximum book return at {returnLimit}</span>
-                                        </Fragment>
-                                        :
-                                        <Fragment>
-                                            <span className="borrowed">Borrowed By : </span>
-                                            <span className="borrow-item">{userRegular.full_name}</span><br/>
-                                            <span className="borrowed">Expected Return At   : </span>
-                                            <span className="borrow-item">{returnLimit}</span>
-                                        </Fragment>
+                                        : (bookDetail.availability == "Ordered") ?
+                                            UserId ?
+                                                <span className="order">Please wait until admin confirm the order</span>
+                                            :   <Fragment>
+                                                    <span className="order">Ordered By : </span>
+                                                    <span className="borrow-item">{userRegular.full_name}</span><br/>
+                                                    <span className="order">Please wait until book available</span>
+                                                </Fragment>
+                                        : UserId ?
+                                            <Fragment>
+                                                <span className="borrowed">Don't forget maximum book return at {returnLimit}</span>
+                                            </Fragment>
+                                         :
+                                            <Fragment>
+                                                <span className="borrowed">Borrowed By : </span>
+                                                <span className="borrow-item">{userRegular.full_name}</span><br/>
+                                                <span className="borrowed">Expected Return At   : </span>
+                                                <span className="borrow-item">{returnLimit}</span>
+                                            </Fragment>
+                                            
                                     }
                                 </Col>
                                 <Col md={3} className="text-right">
-                                { (bookDetail.availability == "Available") ? 
-                                    <h4 style={{color:"#99D815"}}>{bookDetail.availability}</h4>
-                                : <h4 style={{color:"red"}}>{bookDetail.availability}</h4>}
+                                { 
+                                    (bookDetail.availability == "Available") ? 
+                                        <h4 style={{color:"#99D815"}}>{bookDetail.availability}</h4>
+                                    : (bookDetail.availability == "Ordered") ?
+                                        <h4 style={{color:"#007bff"}}>{bookDetail.availability}</h4>
+                                    :   
+                                        <h4 style={{color:"red"}}>{bookDetail.availability}</h4>}
                                     
                                 </Col>
                             </Row>
@@ -206,11 +243,19 @@ class BookDetail extends Component {
                                     <Fragment>
                                         <Button variant="warning" className="float-right btn-borrow" onClick={() => this.modalBorrow(true)}><b>Borrow</b></Button><br/>
                                     </Fragment>
-                                : 
+                                : (bookDetail.availability == "Ordered") ? 
                                     <Fragment>
+                                        <Button variant="warning" className="float-right btn-order" onClick={() => this.confirmBook()}><b>Confirm</b></Button><br/>
+                                    </Fragment>
+                                :    <Fragment>
                                         <Button variant="warning" className="float-right btn-borrow" onClick={() => this.returnBook()}><b>Return</b></Button><br/>
                                     </Fragment>
+                            : (bookDetail.availability == "Available") ? 
+                                <Fragment>
+                                    <Button variant="warning" className="float-right btn-borrow" onClick={() => this.modalBorrow(true)}><b>Borrow</b></Button><br/>
+                                </Fragment>
                             : ""
+                            
                         }
                             
                         </Col>
@@ -236,11 +281,16 @@ class BookDetail extends Component {
                 open={this.state.modalBorrow} 
                 hide={() => this.setState({modalBorrow: false})}
                 id_book={this.state.id_book}
+                isUser={user}
                 onSubmit={this.handleSubmit}
                 setAvailability={this.setAvailability}/>
 
                 <SweetAlert success showCloseButton title="Success!" show={this.state.showReturnModal} showConfirm={false}>
                     Successful book returning
+                </SweetAlert>
+
+                <SweetAlert success showCloseButton title="Success!" show={this.state.showConfirmModal} showConfirm={false}>
+                    Successful book confirm
                 </SweetAlert>
             </React.Fragment>
         )
