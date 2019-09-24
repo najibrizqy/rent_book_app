@@ -7,7 +7,7 @@ import SweetAlert from 'react-bootstrap-sweetalert';
 
 import { getBookDetail, deleteBook } from '../Public/Actions/books';
 import { getProfile, getUserById } from '../Public/Actions/user';
-import { getBorrowedBook, returnBook, borrowBook } from '../Public/Actions/borrow';
+import { getBorrowedBook, returnBook } from '../Public/Actions/borrow';
 import '../Css/style.css';
 import ModalEditBook from '../Components/ModalEditBook';
 import ModalDelete from '../Components/ModalDelete';
@@ -88,20 +88,8 @@ class BookDetail extends Component {
         }, 2000);
     }
 
-    confirmBook = async () => {
-        const id = this.state.id_book;
-
-        await this.props.dispatch (borrowBook(this.state.formConfirm));
-        this.setState ({
-            borrowedBook: this.props.borrow.borrowedBook,
-            showConfirmModal: true
-        });
-        this.setAvailability(2);
-        setTimeout(() => {
-            this.setState({
-                showConfirmModal: false
-            })
-        }, 2000);
+    handleBookOrder = async () => {
+        this.props.history.push('/home/ordered_books')
     }
 
     getUserId = async () =>{
@@ -245,7 +233,7 @@ class BookDetail extends Component {
                                     </Fragment>
                                 : (bookDetail.availability == "Ordered") ? 
                                     <Fragment>
-                                        <Button variant="warning" className="float-right btn-order" onClick={() => this.confirmBook()}><b>Confirm</b></Button><br/>
+                                        <Button variant="warning" className="float-right btn-order" onClick={() => this.handleBookOrder()}><b>BooksOrder</b></Button><br/>
                                     </Fragment>
                                 :    <Fragment>
                                         <Button variant="warning" className="float-right btn-borrow" onClick={() => this.returnBook()}><b>Return</b></Button><br/>
