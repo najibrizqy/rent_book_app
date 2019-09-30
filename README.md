@@ -13,7 +13,7 @@
 [![react-bootstrap](https://img.shields.io/badge/ReactBootstrap-v.1.0.0beta.11-green.svg?style=rounded-square)](https://react-bootstrap.github.io/getting-started/introduction)
 
 ## Requirements
-For development, you will only need Node.js installed on your environement.
+For development, you will only need Node.js installed on your environment.
 
 ## Instal Dependencies
     git clone https://github.com/najibrizqy136/rent_book_app <br>
