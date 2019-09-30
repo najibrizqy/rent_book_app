@@ -9,8 +9,8 @@
 </p>
 
 ## Built With
-[![ReactJs](https://img.shields.io/badge/ReactJs-v.16.9-orange.svg?style=rounded-square)](https://expressjs.com/en/starter/installing.html)
-[![react-bootstrap](https://img.shields.io/badge/ReactBootstrap-v.1.0.0beta.11-green.svg?style=rounded-square)](https://nodejs.org/)
+[![ReactJs](https://img.shields.io/badge/ReactJs-v.16.9-orange.svg?style=rounded-square)](https://reactjs.org/docs/getting-started.html)
+[![react-bootstrap](https://img.shields.io/badge/ReactBootstrap-v.1.0.0beta.11-green.svg?style=rounded-square)](https://react-bootstrap.github.io/getting-started/introduction)
 
 ## Requirements
 For development, you will only need Node.js installed on your environement.
