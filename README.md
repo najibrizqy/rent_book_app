@@ -16,7 +16,7 @@
 For development, you will only need Node.js installed on your environment.
 
 ## Instal Dependencies
-    git clone https://github.com/najibrizqy136/rent_book_app <br>
+    git clone https://github.com/najibrizqy136/rent_book_app
     cd PROJECT
     npm install
 
