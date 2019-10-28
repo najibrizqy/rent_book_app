@@ -5,7 +5,10 @@
 <p>
   Rent Book App is a simple library application. Built with ReactJS using the react-bootstrap Framework.
   React is a JavaScript library for building user interfaces. <a href="https://reactjs.org/">More about ReactJS</a><br>
-  <b>Demo App : <a href="https://artam-lib.netlify.com/home">Here</a></b>
+  <b>Demo App : <a href="https://artam-lib.netlify.com/home">Here</a></b><br><br>
+  <b>Admin</b> : <br>
+  Email : najibrizqy@gmail.com <br>
+  Password : mamang123
 </p>
 
 ## Built With
